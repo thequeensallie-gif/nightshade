@@ -151,65 +151,10 @@
 </div>
     </div>
 </section>
-<div id="shop-hud">
-    <div class="hud-header">
-        <span>YOUR ORDER</span>
-        <button onclick="clearCart()" class="clear-btn">Clear All</button>
-    </div>
-    
-    <div id="cart-items-list"></div>
-
-    <div class="hud-footer">
-        <div class="grand-total-section">
-            <div class="total-line"><span>Total Resources:</span><b id="totalRes">0</b></div>
-            <div class="total-line"><span>Total Metal Ingots:</span><b id="totalIng">0</b></div>
-        </div>
-        <button onclick="copyHudTicket()" class="hud-copy-btn">COPY ORDER FOR DISCORD</button>
-    </div>
-</div>
-
-<style>
-    #shop-hud { position: fixed; bottom: 20px; right: 20px; width: 340px; background: rgba(10, 10, 10, 0.98); border: 2px solid #00ffcc; border-radius: 12px; padding: 15px; z-index: 10000; color: white; box-shadow: 0 0 25px rgba(0, 255, 204, 0.4); font-family: sans-serif; }
-    .hud-header { display: flex; justify-content: space-between; font-size: 11px; color: #888; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px; }
-    .clear-btn { background: none; border: none; color: #ff4444; cursor: pointer; font-size: 10px; text-transform: uppercase; }
-    #cart-items-list { max-height: 200px; overflow-y: auto; margin-bottom: 10px; }
-    
-    /* CART ROW STYLING */
-    .cart-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #222; }
-    .item-controls { display: flex; align-items: center; gap: 5px; }
-    
-    /* NEW: Typable Input Style */
-    .qty-input { 
-        width: 45px; 
-        background: #000; 
-        border: 1px solid #444; 
-        color: #00ffcc; 
-        text-align: center; 
-        border-radius: 4px; 
-        padding: 3px 0;
-        font-weight: bold;
-        font-size: 13px;
-    }
-    .qty-input:focus { border-color: #00ffcc; outline: none; }
-
-    .qty-btn { background: #222; color: #00ffcc; border: 1px solid #00ffcc; border-radius: 4px; width: 24px; height: 24px; cursor: pointer; font-weight: bold; }
-    .qty-btn:hover { background: #00ffcc; color: #000; }
-    .item-name { font-size: 13px; flex-grow: 1; margin-left: 10px; color: #eee; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .item-price { font-size: 13px; color: #00ffcc; font-weight: bold; margin-left: 5px; }
-    
-    .grand-total-section { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 6px; margin-bottom: 12px; border-top: 1px solid #333; }
-    .total-line { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; }
-    .total-line b { color: #00ffcc; font-size: 1.1em; }
-    .hud-copy-btn { width: 100%; background: #00ffcc; color: #000; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
-    
-    .dino-card, .item-card { cursor: pointer !important; transition: 0.2s; border: 2px solid transparent !important; }
-    .dino-card:hover, .item-card:hover { border-color: #00ffcc !important; background: rgba(0, 255, 204, 0.05); }
-</style>
-
 <script>
     let cart = JSON.parse(localStorage.getItem('arkShopCart')) || [];
 
-    // Click on Card to Add
+    // 1. CLICK TO ADD (This is the only time the HTML list "refreshes")
     document.addEventListener('click', (e) => {
         const card = e.target.closest('.item-card') || e.target.closest('.dino-card');
         if (card) {
@@ -219,67 +164,86 @@
                 const name = nameEl.innerText.trim();
                 const priceInIngots = parseInt(priceEl.innerText.replace(/[^0-9]/g, ''));
                 if (!isNaN(priceInIngots)) {
-                    updateQuantity(name, 1, priceInIngots);
+                    const index = cart.findIndex(item => item.name === name);
+                    if (index !== -1) {
+                        cart[index].qty += 1;
+                    } else {
+                        cart.push({ name: name, price: priceInIngots, qty: 1 });
+                    }
+                    // Full refresh only when a card is clicked
+                    renderCart();
                 }
             }
         }
     });
 
-    // Update via buttons
-    function updateQuantity(name, change, price = 0) {
+    // 2. PLUS/MINUS BUTTONS (Also triggers full refresh)
+    function updateQuantity(name, change) {
         const index = cart.findIndex(item => item.name === name);
         if (index !== -1) {
             cart[index].qty += change;
             if (cart[index].qty <= 0) cart.splice(index, 1);
-        } else if (change > 0) {
-            cart.push({ name: name, price: price, qty: 1 });
+            renderCart();
         }
-        renderCart();
     }
 
-    // NEW: Handle Manual Typing
-    function handleManualQty(name, newQty) {
+    // 3. MANUAL TYPING (DOES NOT refresh HTML - allows continuous typing)
+    function handleManualQty(name, newQty, inputElement) {
         const index = cart.findIndex(item => item.name === name);
         if (index !== -1) {
             const val = parseInt(newQty);
-            if (isNaN(val) || val <= 0) {
-                cart.splice(index, 1); // Remove if cleared or 0
-            } else {
-                cart[index].qty = val;
+            // Update the data in memory
+            cart[index].qty = isNaN(val) ? 0 : val;
+            
+            // Save to memory
+            localStorage.setItem('arkShopCart', JSON.stringify(cart));
+
+            // Update the PRICE for just THIS row without refreshing the list
+            const row = inputElement.closest('.cart-row');
+            const rowPriceDisplay = row.querySelector('.item-price-display');
+            if (rowPriceDisplay) {
+                rowPriceDisplay.innerText = (cart[index].qty * cart[index].price).toLocaleString();
             }
-            renderCart();
+
+            // Update the Grand Totals at the bottom
+            calculateTotalsOnly();
         }
+    }
+
+    function calculateTotalsOnly() {
+        let totalIngots = 0;
+        cart.forEach(item => {
+            totalIngots += (item.price * item.qty);
+        });
+        const totalRes = totalIngots * 20;
+        document.getElementById('totalIng').innerText = totalIngots.toLocaleString();
+        document.getElementById('totalRes').innerText = totalRes.toLocaleString();
     }
 
     function renderCart() {
         const listContainer = document.getElementById('cart-items-list');
         listContainer.innerHTML = '';
-        let totalIngots = 0;
-
+        
         if (cart.length === 0) {
             listContainer.innerHTML = '<p style="text-align:center; color:#555; font-size:12px; margin-top:10px;">Select items to begin</p>';
         }
 
         cart.forEach((item) => {
-            const itemTotal = item.price * item.qty;
-            totalIngots += itemTotal;
             listContainer.innerHTML += `
                 <div class="cart-row">
                     <div class="item-controls">
                         <button class="qty-btn" onclick="event.stopPropagation(); updateQuantity('${item.name}', -1)">-</button>
                         <input type="number" class="qty-input" value="${item.qty}" 
-                               onchange="handleManualQty('${item.name}', this.value)" 
+                               oninput="handleManualQty('${item.name}', this.value, this)" 
                                onclick="event.stopPropagation()">
                         <button class="qty-btn" onclick="event.stopPropagation(); updateQuantity('${item.name}', 1)">+</button>
                     </div>
                     <span class="item-name">${item.name}</span>
-                    <span class="item-price">${itemTotal.toLocaleString()}</span>
+                    <span class="item-price-display">${(item.price * item.qty).toLocaleString()}</span>
                 </div>`;
         });
-
-        const totalRes = totalIngots * 20;
-        document.getElementById('totalIng').innerText = totalIngots.toLocaleString();
-        document.getElementById('totalRes').innerText = totalRes.toLocaleString();
+        
+        calculateTotalsOnly();
         localStorage.setItem('arkShopCart', JSON.stringify(cart));
     }
 
@@ -291,12 +255,11 @@
     function copyHudTicket() {
         if (cart.length === 0) return alert("Cart is empty!");
         let summary = "--- NIGHTSHADE SHOP ORDER ---\n";
-        cart.forEach(item => { summary += `${item.qty}x ${item.name} (${(item.price * item.qty).toLocaleString()} Ingots)\n`; });
-        summary += `\nTOTAL: ${document.getElementById('totalRes').innerText} Resources -> ${document.getElementById('totalIng').innerText} Ingots`;
-
-        navigator.clipboard.writeText(summary).then(() => {
-            alert("Order copied to clipboard!");
+        cart.forEach(item => { 
+            if(item.qty > 0) summary += `${item.qty}x ${item.name} (${(item.price * item.qty).toLocaleString()} Ingots)\n`; 
         });
+        summary += `\nTOTAL: ${document.getElementById('totalRes').innerText} Resources -> ${document.getElementById('totalIng').innerText} Ingots`;
+        navigator.clipboard.writeText(summary).then(() => { alert("Order copied to clipboard!"); });
     }
 
     window.addEventListener('load', renderCart);
