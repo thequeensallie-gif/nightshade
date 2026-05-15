@@ -144,22 +144,6 @@
         localStorage.setItem('arkShopCart', JSON.stringify(cart));
     }
 
-    document.addEventListener('click', (e) => {
-        const card = e.target.closest('.dino-card') || e.target.closest('.item-card');
-        if (card) {
-            const nameEl = card.querySelector('h3') || card.querySelector('h2');
-            const priceEl = card.querySelector('.price');
-            if (nameEl && priceEl) {
-                const name = nameEl.innerText.trim();
-                const price = parseInt(priceEl.innerText.replace(/[^0-9]/g, ''));
-                const index = cart.findIndex(i => i.name === name);
-                if (index !== -1) { cart[index].qty += 1; } 
-                else { cart.push({ name: name, price: price, qty: 1 }); }
-                renderCart();
-            }
-        }
-    });
-
     function updateQuantity(name, change) {
         const idx = cart.findIndex(i => i.name === name);
         if (idx !== -1) {
