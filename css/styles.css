@@ -639,8 +639,21 @@ footer {
     color: white; 
     box-shadow: 0 0 25px rgba(0, 255, 204, 0.4); 
     font-family: sans-serif;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth slide */
-    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    
+
+#cart-items-list { 
+    max-height: 220px; /* Limits just the dino list size */
+    overflow-y: auto;  /* Gives just the dinos a scrollbar */
+    margin-bottom: 10px; 
+    padding-right: 5px;
+}
+
+/* FIXES DETECTED HERE: */
+    max-height: 85vh; /* Allows the box to grow up to 85% of the screen height */
+    display: flex;
+    flex-direction: column;
 }
 
 /* Collapsed State */
