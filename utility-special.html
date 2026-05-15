@@ -1,80 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>Nightshade Ark Shop</title>
-<link rel="stylesheet" href="css/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nightshade Shop</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar">
-    <a href="index.html" class="logo">
-        <img src="images/logo-transparent.png" alt="Nightshade Logo">
-    </a>
-    <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="shop.html">Shop</a></li>
-        <li><a href="events.html">Events</a></li>
-        <li><a href="rules.html">Rules</a></li>
-    </ul>
-</nav>
+<header>
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            <img src="images/logo-transparent.png" alt="Nightshade Logo">
+        </a>
 
-<!-- HEADER -->
-<header class="shop-header">
-    <h1>Nightshade Ark Shop</h1>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html" class="active">Shop</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="rules.html">Rules</a></li>
+        </ul>
+    </nav>
 </header>
 
-<!-- SHOP CATEGORY BUTTONS (REPLACES DROPDOWN) -->
-<section class="shop-tabs">
-    <a href="free-starter-kit.html">Starter Kit</a>
-    <a href="herbivores.html">Herbivores</a>
-    <a href="omnivores.html">Omnivores</a>
-    <a href="carnivores.html">Carnivores</a>
-    <a href="utility-special.html">Utility</a>
-</section>
+<main class="shop-page">
 
-<!-- DONATION SECTION -->
-<section class="shop-section">
-    <h2>Donation Information</h2>
-    <div class="info-card">
-        <p>
-            <strong>Donor Buff:</strong><br>
-            $5 - Any Dino Level 300<br>
-            $10 - Breedable Pair Level 300<br>
-            $20 - Any Dino Level 400–500 (Admin Discretion)<br>
-            $40 - Breedable Pair Level 500+<br>
-            $60 - Breedable Pair Level 600+<br>
-            $100 - 2 Breedable Pairs Level 600+ + Metal Structures<br>
-            $150 - 2 Breedable Pairs level 600+, 100 of each metal type of structure, Tek Generator, 50000 Element, and Transmitter
-        </p>
+    <section class="shop-hero">
+        <h1>Utility Items</h1>
+        <p>Survival equipment and tribe support tools.</p>
+    </section>
 
-        <p>
-            To donate, go to Discord → <strong>donor-ticket</strong> and create a ticket.<br>
-            Include dinos, server map, and message the Owner.
-        </p>
+    <section class="shop-grid">
 
-        <p>
-            <strong>Monthly Rewards:</strong><br>
-            Rank 1: 10,000 Element<br>
-            Rank 2: 7,500 Element<br>
-            Rank 3: 5,000 Element
-        </p>
-    </div>
-</section>
+        <div class="item-card">
+            <h2>Regular Saddles</h2>
+            <p>Basic riding equipment for transportation.</p>
+            <span class="price">100 Metal Ingots</span>
+        </div>
 
-<!-- HOW TO PURCHASE -->
-<section class="shop-section">
-    <h2>How to Purchase</h2>
-    <div class="info-card center">
-        <p>
-            To buy an item, go to our Discord server and post in the 
-            <strong>#shop-ticket</strong> channel.
-        </p>
-        <a href="https://discord.gg/8NeNgTQu6d" class="discord-button">Go to Discord</a>
-    </div>
-</section>
+        <div class="item-card">
+            <h2>Ascendant Saddles</h2>
+            <p>Enhanced riding equipment for improved mobility.</p>
+            <span class="price">500 Metal Ingots</span>
+        </div>
+
+        <div class="item-card">
+            <h2>Regular Metal Tools [Sold Individually]</h2>
+            <p>Essential tools for construction and maintenance.</p>
+            <span class="price">100 Metal Ingots</span>
+        </div>
+
+        <div class="item-card">
+            <h2>Ascendant Metal Tools [Sold Individually]</h2>
+            <p>Advanced tools for construction and maintenance.</p>
+            <span class="price">500 Metal Ingots</span>
+        </div>
+
+        <div class="item-card">
+            <h2>Ascendant Blueprints [Sold Individually]</h2>
+            <p>Advanced blueprints for construction and maintenance.</p>
+            <span class="price">1500 Metal Ingots</span>
+        </div>
+
+        <div class="item-card">
+            <h2>100 of any resource [No Element, Per resource]</h2>
+            <p>100 units of any available resource. We do NOT sell Element for Metal ingots.</p>
+            <span class="price">5 Metal Ingots</span>
+        </div>
+
+        <div class="item-card">
+            <h2>Normal Story Boss</h2>
+            <p>Buy a normal story boss to battle out!</p>
+            <span class="price">1500 Metal Ingots</span>
+        </div>
+
+        <div class="item-card">
+            <h2>Event Bosses</h2>
+            <p>Buy a special event boss to battle out!</p>
+            <span class="price">2500 Metal Ingots</span>
+        </div>
+
+        <div class="item-card">
+            <h2>Mod Bosses</h2>
+            <p>Buy a modified boss to battle out!</p>
+            <span class="price">2000 Metal Ingots</span>
+        </div>
+    </section>
+
+</main>
+
+<footer class="footer">
+    <p>© Nightshade Survival Network</p>
+</footer>
 <div id="shop-hud">
     <div class="hud-dino-info">
         <label>SELECTED ITEM</label>

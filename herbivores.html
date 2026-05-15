@@ -310,13 +310,17 @@
     </div>
 </section>
 <div id="shop-hud">
+    <div class="hud-dino-info">
+        <label>SELECTED ITEM</label>
+        <span id="selectedDinoName">None</span>
+    </div>
     <div class="hud-grid">
         <div class="hud-item input-area">
             <label>RESOURCES</label>
             <input type="number" id="hudInput" placeholder="0">
         </div>
         <div class="hud-item output-area">
-            <label>METAL INGOTS</label>
+            <label>TOTAL INGOTS</label>
             <span id="hudOutput">0</span>
         </div>
     </div>
@@ -329,79 +333,107 @@
         bottom: 20px;
         left: 50%;
         transform: translateX(-50%);
-        background: rgba(10, 10, 10, 0.9);
+        background: rgba(10, 10, 10, 0.95);
         border: 2px solid #00ffcc;
         border-radius: 10px;
         padding: 10px 20px;
         display: flex;
         align-items: center;
         gap: 20px;
-        z-index: 1000;
-        box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
-        backdrop-filter: blur(5px);
+        z-index: 9999;
+        box-shadow: 0 0 20px rgba(0, 255, 204, 0.4);
+        backdrop-filter: blur(8px);
+        color: white;
+        font-family: sans-serif;
     }
-
-    .hud-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-        border-right: 1px solid #333;
-        padding-right: 20px;
-    }
-
-    .hud-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .hud-item label {
-        font-size: 10px;
-        color: #888;
-        letter-spacing: 1px;
-        margin-bottom: 4px;
-    }
-
-    #hudInput {
-        width: 100px;
-        background: #000;
-        border: 1px solid #444;
-        color: #00ffcc;
-        text-align: center;
-        border-radius: 4px;
-        padding: 5px;
-        font-weight: bold;
-    }
-
-    #hudOutput {
-        font-size: 1.2em;
-        font-weight: bold;
-        color: #fff;
-    }
-
-    .hud-copy-btn {
-        background: #00ffcc;
-        color: #000;
-        border: none;
-        padding: 10px 15px;
-        border-radius: 5px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-
-    .hud-copy-btn:hover {
-        background: #fff;
-        transform: scale(1.05);
-    }
-
-    /* Hide HUD on very small screens to avoid overlap */
-    @media (max-width: 600px) {
-        #shop-hud { width: 90%; gap: 10px; padding: 10px; }
-        .hud-grid { gap: 10px; }
-        #hudInput { width: 70px; }
-    }
+    .hud-dino-info { border-right: 1px solid #333; padding-right: 20px; min-width: 120px; text-align: left; }
+    .hud-dino-info span { display: block; color: #00ffcc; font-weight: bold; }
+    .hud-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; border-right: 1px solid #333; padding-right: 20px; }
+    .hud-item { display: flex; flex-direction: column; align-items: center; }
+    .hud-item label, .hud-dino-info label { font-size: 10px; color: #888; letter-spacing: 1px; margin-bottom: 4px; }
+    #hudInput { width: 100px; background: #000; border: 1px solid #444; color: #00ffcc; text-align: center; border-radius: 4px; padding: 5px; font-weight: bold; outline: none; }
+    #hudOutput { font-size: 1.2em; font-weight: bold; color: #fff; }
+    .hud-copy-btn { background: #00ffcc; color: #000; border: none; padding: 10px 15px; border-radius: 5px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+    .hud-copy-btn:hover { background: #fff; }
+    
+    /* Hover and Select effects for your Dino Cards */
+    .dino-card { cursor: pointer; transition: 0.2s; border: 2px solid transparent !important; border-radius: 8px; }
+    .dino-card:hover { border-color: #00ffcc !important; background: rgba(0, 255, 204, 0.05); }
+    .dino-card.selected { border-color: #00ffcc !important; background: rgba(0, 255, 204, 0.15); }
 </style>
+
+<script>
+    const hudInput = document.getElementById('hudInput');
+    const hudOutput = document.getElementById('hudOutput');
+    const dinoNameDisplay = document.getElementById('selectedDinoName');
+
+    // 1. AUTO-SELECT: Logic to make cards clickable
+    document.addEventListener('click', (e) => {
+        const card = e.target.closest('.dino-card');
+        if (card) {
+            // Visual highlight
+            document.querySelectorAll('.dino-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+
+            // Scrape data
+            const name = card.querySelector('h3').innerText;
+            const priceText = card.querySelector('.price').innerText; 
+            const priceInIngots = parseInt(priceText.replace(/[^0-9]/g, ''));
+            
+            // Calculate resources (Rate: 100 resources = 5 ingots -> 1 ingot = 20 resources)
+            const neededResources = priceInIngots * 20;
+
+            // Update UI & Save
+            hudInput.value = neededResources;
+            dinoNameDisplay.innerText = name;
+            saveData(name, neededResources);
+            updateResult(neededResources);
+        }
+    });
+
+    // 2. MANUAL TYPE: Logic for when user types in HUD
+    hudInput.addEventListener('input', () => {
+        saveData(dinoNameDisplay.innerText, hudInput.value);
+        updateResult(hudInput.value);
+    });
+
+    // 3. REFRESH/LOAD: Logic to remember the total across pages
+    window.addEventListener('load', () => {
+        const savedQty = localStorage.getItem('arkShopQty');
+        const savedDino = localStorage.getItem('arkShopDino');
+        if (savedQty) {
+            hudInput.value = savedQty;
+            updateResult(savedQty);
+        }
+        if (savedDino) {
+            dinoNameDisplay.innerText = savedDino;
+        }
+    });
+
+    function updateResult(val) {
+        const totalIngots = Math.round((parseFloat(val) || 0) * 0.05);
+        hudOutput.innerText = totalIngots.toLocaleString();
+    }
+
+    function saveData(name, qty) {
+        localStorage.setItem('arkShopQty', qty);
+        localStorage.setItem('arkShopDino', name);
+    }
+
+    function copyHudTicket() {
+        const name = dinoNameDisplay.innerText;
+        const res = hudInput.value || 0;
+        const ing = hudOutput.innerText;
+        const text = `Shop Order: ${name} (${res} Resources -> ${ing} Ingots)`;
+        
+        navigator.clipboard.writeText(text).then(() => {
+            const btn = document.querySelector('.hud-copy-btn');
+            const originalText = btn.innerText;
+            btn.innerText = "COPIED!";
+            setTimeout(() => { btn.innerText = originalText; }, 2000);
+        });
+    }
+</script>
 
 </body>
 </html>
