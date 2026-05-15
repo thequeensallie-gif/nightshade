@@ -674,7 +674,7 @@ footer {
 }
 
 /* HUD Interior Elements */
-.hud-header { display: flex; justify-content: space-between; font-size: 11px; color: #888; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px; }
+.hud-header { display: flex; justify-content: space-between; font-size: 11px; color: #888; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px; padding-left: 30px; }
 .clear-btn { background: none; border: none; color: #ff4444; cursor: pointer; font-size: 10px; text-transform: uppercase; }
 #cart-items-list { max-height: 200px; overflow-y: auto; margin-bottom: 10px; }
 .cart-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #222; }
