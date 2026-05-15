@@ -75,6 +75,99 @@
         <a href="https://discord.gg/8NeNgTQu6d" class="discord-button">Go to Discord</a>
     </div>
 </section>
+<div id="shop-hud">
+    <div class="hud-grid">
+        <div class="hud-item input-area">
+            <label>RESOURCES</label>
+            <input type="number" id="hudInput" placeholder="0">
+        </div>
+        <div class="hud-item output-area">
+            <label>METAL INGOTS</label>
+            <span id="hudOutput">0</span>
+        </div>
+    </div>
+    <button onclick="copyHudTicket()" class="hud-copy-btn">COPY ORDER</button>
+</div>
+
+<style>
+    #shop-hud {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(10, 10, 10, 0.9);
+        border: 2px solid #00ffcc;
+        border-radius: 10px;
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        z-index: 1000;
+        box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
+        backdrop-filter: blur(5px);
+    }
+
+    .hud-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        border-right: 1px solid #333;
+        padding-right: 20px;
+    }
+
+    .hud-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hud-item label {
+        font-size: 10px;
+        color: #888;
+        letter-spacing: 1px;
+        margin-bottom: 4px;
+    }
+
+    #hudInput {
+        width: 100px;
+        background: #000;
+        border: 1px solid #444;
+        color: #00ffcc;
+        text-align: center;
+        border-radius: 4px;
+        padding: 5px;
+        font-weight: bold;
+    }
+
+    #hudOutput {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #fff;
+    }
+
+    .hud-copy-btn {
+        background: #00ffcc;
+        color: #000;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .hud-copy-btn:hover {
+        background: #fff;
+        transform: scale(1.05);
+    }
+
+    /* Hide HUD on very small screens to avoid overlap */
+    @media (max-width: 600px) {
+        #shop-hud { width: 90%; gap: 10px; padding: 10px; }
+        .hud-grid { gap: 10px; }
+        #hudInput { width: 70px; }
+    }
+</style>
 
 </body>
 </html>
