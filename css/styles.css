@@ -645,7 +645,7 @@ footer {
 
 #cart-items-list { 
     display: block !important;
-    max-height: 150px !important; /* Forces the list to stop growing */
+    max-height: 110px !important; /* Forces the list to stop growing */
     overflow-y: auto !important;  /* Forces a scrollbar when it exceeds 150px */
     margin-bottom: 10px; 
     padding-right: 5px;           /* Gives the scrollbar a little breathing room */
