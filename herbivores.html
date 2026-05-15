@@ -24,7 +24,7 @@
 <!-- HEADER -->
 <header class="shop-header">
     <h1>Herbivores</h1>
-    <p>Peaceful creatures perfect for farming, defense, and utility. <strong>Prices are subject to change. Tek, S, and Eerie dino's Cost 2500 more than their originals!</strong></p>
+    <p>Peaceful creatures perfect for farming, defense, and utility. <strong>Prices are subject to change. Tek, Proto, Myth, and Eerie dino's Cost 2500 more than their originals!</strong></p>
 </header>
 
 <!-- DINO GRID -->
@@ -417,7 +417,7 @@
             if(item.qty > 0) summary += `${item.qty}x ${item.name} (${(item.price * item.qty).toLocaleString()} Ingots)\n`; 
         });
         summary += `\nTOTAL: ${document.getElementById('totalRes').innerText} Resources -> ${document.getElementById('totalIng').innerText} Ingots`;
-        navigator.clipboard.writeText(summary).then(() => { alert("Order copied to clipboard!"); });
+                  navigator.clipboard.writeText(summary).then(() => { alert("Order copied to clipboard!"); });
     }
 
     window.addEventListener('load', renderCart);

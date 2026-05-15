@@ -139,9 +139,9 @@
         cart.forEach(item => {
             totalIngots += (item.price * item.qty);
         });
-        const totalRes = totalIngots * 20;
+//        const totalRes = totalIngots * 20;
         document.getElementById('totalIng').innerText = totalIngots.toLocaleString();
-        document.getElementById('totalRes').innerText = totalRes.toLocaleString();
+//        document.getElementById('totalRes').innerText = totalRes.toLocaleString();
     }
 
     function renderCart() {
@@ -182,7 +182,7 @@
         cart.forEach(item => { 
             if(item.qty > 0) summary += `${item.qty}x ${item.name} (${(item.price * item.qty).toLocaleString()} Ingots)\n`; 
         });
-        summary += `\nTOTAL: ${document.getElementById('totalRes').innerText} Resources -> ${document.getElementById('totalIng').innerText} Ingots`;
+        summary += `\nTOTAL: ${document.getElementById('totalRes').innerText} Resources -> ${document.getElementById('totalIng').innerText} Ingots`;        
         navigator.clipboard.writeText(summary).then(() => { alert("Order copied to clipboard!"); });
     }
 
