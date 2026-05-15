@@ -644,10 +644,11 @@ footer {
     
 
 #cart-items-list { 
-    max-height: 220px; /* Limits just the dino list size */
-    overflow-y: auto;  /* Gives just the dinos a scrollbar */
+    display: block !important;
+    max-height: 150px !important; /* Forces the list to stop growing */
+    overflow-y: auto !important;  /* Forces a scrollbar when it exceeds 150px */
     margin-bottom: 10px; 
-    padding-right: 5px;
+    padding-right: 5px;           /* Gives the scrollbar a little breathing room */
 }
 
 /* FIXES DETECTED HERE: */
