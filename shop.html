@@ -204,7 +204,7 @@ document.addEventListener('click', (e) => {
             const variantText = variantPicker.options[variantPicker.selectedIndex].text.split(' (')[0];
 
             // 4. Create the final Name and Price
-            const fullName = (variantText === "Vanilla") ? baseName : `${variantText} ${baseName}`;
+            const fullName = (variantText === "Original") ? baseName : `${variantText} ${baseName}`;
             const finalPrice = basePrice + extraPrice;
 
             // 5. Add to cart logic
