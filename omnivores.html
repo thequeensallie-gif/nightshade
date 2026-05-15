@@ -1,38 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Omnivores - Nightshade Ark</title>
-<link rel="stylesheet" href="css/styles.css">
-<style>
-    /* HUD STYLING - Consistent across all shop pages */
-    #shop-hud { position: fixed; bottom: 20px; right: 20px; width: 340px; background: rgba(10, 10, 10, 0.98); border: 2px solid #00ffcc; border-radius: 12px; padding: 15px; z-index: 10000; color: white; box-shadow: 0 0 25px rgba(0, 255, 204, 0.4); font-family: sans-serif; }
-    .hud-header { display: flex; justify-content: space-between; font-size: 11px; color: #888; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px; }
-    .clear-btn { background: none; border: none; color: #ff4444; cursor: pointer; font-size: 10px; text-transform: uppercase; }
-    #cart-items-list { max-height: 200px; overflow-y: auto; margin-bottom: 10px; }
-    .cart-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #222; }
-    .item-controls { display: flex; align-items: center; gap: 5px; }
-    .qty-input { width: 50px; background: #000; border: 1px solid #444; color: #00ffcc; text-align: center; border-radius: 4px; padding: 4px 0; font-weight: bold; font-size: 13px; }
-    .qty-input:focus { border-color: #00ffcc; outline: none; }
-    .qty-btn { background: #222; color: #00ffcc; border: 1px solid #00ffcc; border-radius: 4px; width: 24px; height: 24px; cursor: pointer; font-weight: bold; }
-    .qty-btn:hover { background: #00ffcc; color: #000; }
-    .item-name { font-size: 13px; flex-grow: 1; margin-left: 10px; color: #eee; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .item-price-display { font-size: 13px; color: #00ffcc; font-weight: bold; margin-left: 5px; min-width: 60px; text-align: right; }
-    .grand-total-section { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 6px; margin-bottom: 12px; border-top: 1px solid #333; }
-    .total-line { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; }
-    .total-line b { color: #00ffcc; font-size: 1.1em; }
-    .hud-copy-btn { width: 100%; background: #00ffcc; color: #000; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
-    .dino-card { cursor: pointer !important; transition: 0.2s; border: 2px solid transparent !important; }
-    .dino-card:hover { border-color: #00ffcc !important; background: rgba(0, 255, 204, 0.05); }
-</style>
+    <meta charset="UTF-8">
+    <title>Omnivores - Nightshade Ark</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        /* HUD STYLING */
+        #shop-hud { position: fixed; bottom: 20px; right: 20px; width: 340px; background: rgba(10, 10, 10, 0.98); border: 2px solid #00ffcc; border-radius: 12px; padding: 15px; z-index: 10000; color: white; box-shadow: 0 0 25px rgba(0, 255, 204, 0.4); font-family: sans-serif; }
+        .hud-header { display: flex; justify-content: space-between; font-size: 11px; color: #888; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px; }
+        .clear-btn { background: none; border: none; color: #ff4444; cursor: pointer; font-size: 10px; text-transform: uppercase; }
+        #cart-items-list { max-height: 200px; overflow-y: auto; margin-bottom: 10px; }
+        .cart-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #222; }
+        .item-controls { display: flex; align-items: center; gap: 5px; }
+        .qty-input { width: 50px; background: #000; border: 1px solid #444; color: #00ffcc; text-align: center; border-radius: 4px; padding: 4px 0; font-weight: bold; font-size: 13px; }
+        .qty-btn { background: #222; color: #00ffcc; border: 1px solid #00ffcc; border-radius: 4px; width: 24px; height: 24px; cursor: pointer; font-weight: bold; }
+        .item-name { font-size: 13px; flex-grow: 1; margin-left: 10px; color: #eee; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .item-price-display { font-size: 13px; color: #00ffcc; font-weight: bold; margin-left: 5px; min-width: 60px; text-align: right; }
+        .grand-total-section { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 6px; margin-bottom: 12px; border-top: 1px solid #333; }
+        .total-line { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; }
+        .total-line b { color: #00ffcc; font-size: 1.1em; }
+        .hud-copy-btn { width: 100%; background: #00ffcc; color: #000; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+        .dino-card { cursor: pointer !important; transition: 0.2s; border: 2px solid transparent !important; }
+        .dino-card:hover { border-color: #00ffcc !important; background: rgba(0, 255, 204, 0.05); }
+    </style>
 </head>
 
 <body>
 
 <nav class="navbar">
-    <a href="index.html" class="logo">
-        <img src="images/logo-transparent.png" alt="Nightshade Logo">
-    </a>
+    <a href="index.html" class="logo"><img src="images/logo-transparent.png" alt="Nightshade Logo"></a>
     <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="shop.html">Shop</a></li>
@@ -43,133 +39,35 @@
 
 <header class="shop-header">
     <h1>Omnivores</h1>
-    <p>These creatures are omnivorous and can consume both plants and meat. <strong>Prices are subject to change. Tek, Proto, Myth, and Eerie dino's Cost 2500 more than their originals!</strong></p>
+    <p>These creatures are omnivorous and can consume both plants and meat.</p>
 </header>
 
 <section class="dino-section">
     <div class="dino-grid">
-        <div class="dino-card">
-            <img src="images/dinos/omnivores/bulbdog.webp" alt="Bulbdog">
-            <h3>Bulbdog</h3>
-            <p>Shoulder-mounted light companion to ward off Nameless.</p>
-            <span class="price">2500 Metal Ingots</span>
-        </div>
-        <div class="dino-card">
-            <img src="images/dinos/omnivores/coelacanth.webp" alt="Coelacanth">
-            <h3>Coelacanth</h3>
-            <p>Swimming predator with high health and damage.</p>
-            <span class="price">2500 Metal Ingots</span>
-        </div>
-        <div class="dino-card">
-            <img src="images/dinos/omnivores/gloon.webp" alt="Gloon">
-            <h3>Gloon</h3>
-            <p>Invisibility, lasers, and Necrotic Mark ability.</p>
-            <span class="price">2500 Metal Ingots</span>
-        </div>
-        <div class="dino-card">
-            <img src="images/dinos/omnivores/glowtail.webp" alt="Glowtail">
-            <h3>Glowtail</h3>
-            <p>Light pet with a unique protective barrier ability.</p>
-            <span class="price">2500 Metal Ingots</span>
-        </div>
-        <div class="dino-card">
-            <img src="images/dinos/omnivores/mesopithecus.webp" alt="Mesopithecus">
-            <h3>Mesopithecus</h3>
-            <p>Shoulder monkey that flings poop to slow enemies.</p>
-            <span class="price">2500 Metal Ingots</span>
-        </div>
-        <div class="dino-card">
-            <img src="images/dinos/omnivores/onyc.webp" alt="Onyc">
-            <h3>Onyc</h3>
-            <p>Aggressive bat known for Mega Rabies and armor destruction.</p>
-            <span class="price">5000 Metal Ingots</span>
-        </div>
-        <div class="dino-card">
-            <img src="images/dinos/omnivores/malwyn.webp" alt="Malwyn">
-            <h3>Malwyn</h3>
-            <p>Aggressive, cold-hearted ruthless combat mount.</p>
-            <span class="price">5000 Metal Ingots</span>
-        </div>
-        <div class="dino-card">
-            <img src="images/dinos/omnivores/solwyn.webp" alt="Solwyn">
-            <h3>Solwyn</h3>
-            <p>Ice-bridge creator with high maneuverability.</p>
-            <span class="price">5000 Metal Ingots</span>
-        </div>
-        <div class="dino-card">
-            <img src="images/dinos/omnivores/maewing.webp" alt="Maewing">
-            <h3>Maewing</h3>
-            <p>Living nursing station and baby transporter.</p>
-            <span class="price">5000 Metal Ingots</span>
-        </div>
-        <div class="dino-card">
-            <img src="images/dinos/omnivores/dinopithecus.webp" alt="Dinopithecus">
-            <h3>Dinopithecus</h3>
-            <p>Fast climber that disables TEK armor with projectiles.</p>
-            <span class="price">5000 Metal Ingots</span>
-        </div>
-        <div class="dino-card">
-            <img src="images/dinos/omnivores/moschops.webp" alt="Moschops">
-            <h3>Moschops</h3>
-            <p>Large herbivore with a powerful charge attack.</p>
-            <span class="price">5000 Metal Ingots</span>
-        </div>
-        <div class="dino-card">
-            <img src="images/dinos/omnivores/archelon.webp" alt="Archelon">
-            <h3>Archelon</h3>
-            <p>Marine reptile with a distinctive shell and powerful bite.</p>
-            <span class="price">7500 Metal Ingots</span>
-        </div>
-        <div class="dino-card">
-            <img src="images/dinos/omnivores/direbear.webp" alt="Dire Bear">
-            <h3>Dire Bear</h3>
-            <p>Fast early-game mount, great for fiber and honey.</p>
-            <span class="price">7500 Metal Ingots</span>
-        </div>
-        <div class="dino-card">
-            <img src="images/dinos/omnivores/elderclaw.webp" alt="Elderclaw">
-            <h3>Elderclaw</h3>
-            <p>Aggressive predator with devastating claw attacks.</p>
-            <span class="price">7500 Metal Ingots</span>
-        </div>
-        <div class="dino-card">
-            <img src="images/dinos/omnivores/megatherium.webp" alt="Megatherium">
-            <h3>Megatherium</h3>
-            <p>Large powerhouse specializing in insect elimination.</p>
-            <span class="price">7500 Metal Ingots</span>
-        </div>
-        <div class="dino-card">
-            <img src="images/dinos/omnivores/gigantoraptor.webp" alt="Gigantoraptor">
-            <h3>Gigantoraptor</h3>
-            <p>Large, fast-running theropod with high agility.</p>
-            <span class="price">10000 Metal Ingots</span>
-        </div>
-        <div class="dino-card">
-            <img src="images/dinos/omnivores/karkinos.webp" alt="Karkinos">
-            <h3>Karkinos</h3>
-            <p>Aggressive crustacean with powerful pincer claws.</p>
-            <span class="price">1000 Metal Ingots</span>
-        </div>
-        <div class="dino-card">
-            <img src="images/dinos/omnivores/maeguana.webp" alt="Maeguana">
-            <h3>Maeguana</h3>
-            <p>Large predator with powerful claws and attacks.</p>
-            <span class="price">10000 Metal Ingots</span>
-        </div>
-        <div class="dino-card">
-            <img src="images/dinos/omnivores/megachelon.webp" alt="Megachelon">
-            <h3>Megachelon</h3>
-            <p>Massive ancient turtle and mobile platform.</p>
-            <span class="price">20000 Metal Ingots</span>
-        </div>
+        <div class="dino-card"><img src="images/dinos/omnivores/bulbdog.webp"><h3>Bulbdog</h3><p>Shoulder light companion.</p><span class="price">2500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/omnivores/coelacanth.webp"><h3>Coelacanth</h3><p>Swimming predator.</p><span class="price">2500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/omnivores/gloon.webp"><h3>Gloon</h3><p>Invisibility and lasers.</p><span class="price">2500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/omnivores/glowtail.webp"><h3>Glowtail</h3><p>Light pet with barrier.</p><span class="price">2500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/omnivores/mesopithecus.webp"><h3>Mesopithecus</h3><p>Poop-flinging shoulder monkey.</p><span class="price">2500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/omnivores/onyc.webp"><h3>Onyc</h3><p>Mega Rabies flying bat.</p><span class="price">5000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/omnivores/malwyn.webp"><h3>Malwyn</h3><p>Ruthless combat mount.</p><span class="price">5000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/omnivores/solwyn.webp"><h3>Solwyn</h3><p>Ice-field traversal specialist.</p><span class="price">5000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/omnivores/maewing.webp"><h3>Maewing</h3><p>Living nursing station.</p><span class="price">5000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/omnivores/dinopithecus.webp"><h3>Dinopithecus</h3><p>TEK disabling baboon.</p><span class="price">5000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/omnivores/moschops.webp"><h3>Moschops</h3><p>Thick hide charge attacker.</p><span class="price">5000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/omnivores/archelon.webp"><h3>Archelon</h3><p>Distinctive shell marine reptile.</p><span class="price">7500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/omnivores/direbear.webp"><h3>Dire Bear</h3><p>Fast mount for fiber/honey.</p><span class="price">7500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/omnivores/elderclaw.webp"><h3>Elderclaw</h3><p>Devastating claw attacker.</p><span class="price">7500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/omnivores/megatherium.webp"><h3>Megatherium</h3><p>Insect elimination powerhouse.</p><span class="price">7500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/omnivores/gigantoraptor.webp"><h3>Gigantoraptor</h3><p>Fast theropod agility.</p><span class="price">10000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/omnivores/karkinos.webp"><h3>Karkinos</h3><p>Giant Aberration crab.</p><span class="price">10000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/omnivores/maeguana.webp"><h3>Maeguana</h3><p>Aggressive lizard predator.</p><span class="price">10000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/omnivores/megachelon.webp"><h3>Megachelon</h3><p>Ancient turtle mobile platform.</p><span class="price">20000 Metal Ingots</span></div>
     </div>
 </section>
 
 <div id="shop-hud">
-    <div class="hud-header">
-        <span>YOUR ORDER</span>
-        <button onclick="clearCart()" class="clear-btn">Clear All</button>
-    </div>
+    <div class="hud-header"><span>YOUR ORDER</span><button onclick="clearCart()" class="clear-btn">Clear All</button></div>
     <div id="cart-items-list"></div>
     <div class="hud-footer">
         <div class="grand-total-section">
@@ -183,56 +81,6 @@
 <script>
     let cart = JSON.parse(localStorage.getItem('arkShopCart')) || [];
 
-    document.addEventListener('click', (e) => {
-        const card = e.target.closest('.dino-card') || e.target.closest('.item-card');
-        if (card) {
-            const nameEl = card.querySelector('h3') || card.querySelector('h2');
-            const priceEl = card.querySelector('.price');
-            if (nameEl && priceEl) {
-                const name = nameEl.innerText.trim();
-                const price = parseInt(priceEl.innerText.replace(/[^0-9]/g, ''));
-                if (!isNaN(price)) {
-                    const index = cart.findIndex(item => item.name === name);
-                    if (index !== -1) {
-                        cart[index].qty += 1;
-                    } else {
-                        cart.push({ name: name, price: price, qty: 1 });
-                    }
-                    renderCart();
-                }
-            }
-        }
-    });
-
-    function updateQuantity(name, change) {
-        const index = cart.findIndex(item => item.name === name);
-        if (index !== -1) {
-            cart[index].qty += change;
-            if (cart[index].qty <= 0) cart.splice(index, 1);
-            renderCart();
-        }
-    }
-
-    function handleManualQty(name, newQty, inputElement) {
-        const index = cart.findIndex(item => item.name === name);
-        if (index !== -1) {
-            const val = parseInt(newQty);
-            cart[index].qty = isNaN(val) ? 0 : val;
-            const row = inputElement.closest('.cart-row');
-            const priceDisp = row.querySelector('.item-price-display');
-            if (priceDisp) priceDisp.innerText = (cart[index].qty * cart[index].price).toLocaleString();
-            localStorage.setItem('arkShopCart', JSON.stringify(cart));
-            calculateTotalsOnly();
-        }
-    }
-
-    function calculateTotalsOnly() {
-        let total = 0;
-        cart.forEach(item => total += (item.price * item.qty));
-        if(document.getElementById('totalIng')) document.getElementById('totalIng').innerText = total.toLocaleString();
-        if(document.getElementById('totalRes')) document.getElementById('totalRes').innerText = (total * 20).toLocaleString();
-    }
-
     function renderCart() {
         const list = document.getElementById('cart-items-list');
         if (!list) return;
@@ -241,21 +89,64 @@
             list.innerHTML = '<p style="text-align:center; color:#555; font-size:12px; margin-top:10px;">Select items to begin</p>';
         }
         cart.forEach(item => {
-            list.innerHTML += `
-                <div class="cart-row">
-                    <div class="item-controls">
-                        <button class="qty-btn" onclick="event.stopPropagation(); updateQuantity('${item.name}', -1)">-</button>
-                        <input type="number" class="qty-input" value="${item.qty}" 
-                               oninput="handleManualQty('${item.name}', this.value, this)" 
-                               onclick="event.stopPropagation()">
-                        <button class="qty-btn" onclick="event.stopPropagation(); updateQuantity('${item.name}', 1)">+</button>
-                    </div>
-                    <span class="item-name">${item.name}</span>
-                    <span class="item-price-display">${(item.price * item.qty).toLocaleString()}</span>
-                </div>`;
+            list.innerHTML += `<div class="cart-row">
+                <div class="item-controls">
+                    <button class="qty-btn" onclick="updateQuantity('${item.name}', -1)">-</button>
+                    <input type="number" class="qty-input" value="${item.qty}" oninput="handleManualQty('${item.name}', this.value, this)">
+                    <button class="qty-btn" onclick="updateQuantity('${item.name}', 1)">+</button>
+                </div>
+                <span class="item-name">${item.name}</span>
+                <span class="item-price-display">${(item.price * item.qty).toLocaleString()}</span>
+            </div>`;
         });
         calculateTotalsOnly();
         localStorage.setItem('arkShopCart', JSON.stringify(cart));
+    }
+
+    document.addEventListener('click', (e) => {
+        const card = e.target.closest('.dino-card') || e.target.closest('.item-card');
+        if (card) {
+            const nameEl = card.querySelector('h3') || card.querySelector('h2');
+            const priceEl = card.querySelector('.price');
+            if (nameEl && priceEl) {
+                const name = nameEl.innerText.trim();
+                const price = parseInt(priceEl.innerText.replace(/[^0-9]/g, ''));
+                const index = cart.findIndex(i => i.name === name);
+                if (index !== -1) { cart[index].qty += 1; } 
+                else { cart.push({ name: name, price: price, qty: 1 }); }
+                renderCart();
+            }
+        }
+    });
+
+    function updateQuantity(name, change) {
+        const idx = cart.findIndex(i => i.name === name);
+        if (idx !== -1) {
+            cart[idx].qty += change;
+            if (cart[idx].qty <= 0) cart.splice(idx, 1);
+            renderCart();
+        }
+    }
+
+    function handleManualQty(name, newQty, input) {
+        const idx = cart.findIndex(i => i.name === name);
+        if (idx !== -1) {
+            const val = parseInt(newQty);
+            cart[idx].qty = isNaN(val) ? 0 : val;
+            const row = input.closest('.cart-row');
+            row.querySelector('.item-price-display').innerText = (cart[idx].qty * cart[idx].price).toLocaleString();
+            localStorage.setItem('arkShopCart', JSON.stringify(cart));
+            calculateTotalsOnly();
+        }
+    }
+
+    function calculateTotalsOnly() {
+        let total = 0;
+        cart.forEach(i => total += (i.price * i.qty));
+        const ing = document.getElementById('totalIng');
+        const res = document.getElementById('totalRes');
+        if (ing) ing.innerText = total.toLocaleString();
+        if (res) res.innerText = (total * 20).toLocaleString();
     }
 
     function clearCart() { cart = []; renderCart(); }
@@ -263,13 +154,12 @@
     function copyHudTicket() {
         if (cart.length === 0) return alert("Cart is empty!");
         let summary = "--- NIGHTSHADE SHOP ORDER ---\n";
-        cart.forEach(item => { if(item.qty > 0) summary += `${item.qty}x ${item.name} (${(item.price * item.qty).toLocaleString()} Ingots)\n`; });
+        cart.forEach(i => { if(i.qty > 0) summary += `${i.qty}x ${i.name} (${(i.price * i.qty).toLocaleString()} Ingots)\n`; });
         summary += `\nTOTAL: ${document.getElementById('totalRes').innerText} Resources -> ${document.getElementById('totalIng').innerText} Ingots`;
         navigator.clipboard.writeText(summary).then(() => alert("Order copied!"));
     }
 
     window.addEventListener('load', renderCart);
 </script>
-
 </body>
-</html>
+</html>7
