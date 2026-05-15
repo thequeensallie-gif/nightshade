@@ -99,23 +99,25 @@
 <!-- SHOPPING LIST -->
 <div id="shop-hud">
     <button id="hud-toggle" onclick="toggleHud()">−</button>
+    
     <div id="hud-content">
-    <div style="padding: 10px; background: rgba(255,255,255,0.05); border-bottom: 1px solid #333; margin-bottom: 10px;">
-        <label style="font-size: 10px; color: #00ffcc; display: block; margin-bottom: 5px;">SELECT VARIANT:</label>
-        <select id="variant-master" style="width: 100%; background: #000; color: #fff; border: 1px solid #444; border-radius: 4px; padding: 4px; font-size: 12px;">
-            <option value="0">Original (Base Price)</option>
-            <option value="2500">Tek (+2,500)</option>
-            <option value="2500">Proto (+2,500)</option>
-            <option value="2500">Myth (+2,500)</option>
-            <option value="2500">Eerie (+2,500)</option>
-        </select>
-    </div>
+        <div style="padding: 35px 10px 10px 10px; background: rgba(255,255,255,0.05); border-bottom: 1px solid #333; margin-bottom: 10px;">
+            <label style="font-size: 10px; color: #00ffcc; display: block; margin-bottom: 5px; font-weight: bold;">SELECT VARIANT:</label>
+            <select id="variant-master" style="width: 100%; background: #000; color: #fff; border: 1px solid #444; border-radius: 4px; padding: 6px; font-size: 12px;">
+                <option value="0">Original (Base Price)</option>
+                <option value="2500">Tek (+2,500)</option>
+                <option value="2500">Proto (+2,500)</option>
+                <option value="2500">Myth (+2,500)</option>
+                <option value="2500">Eerie (+2,500)</option>
+            </select>
+        </div>
 
-    <div class="hud-header" style="padding-left: 35px;">
-        <span>YOUR ORDER</span>
-        <button onclick="clearCart()" class="clear-btn">Clear All</button>
-    </div>
-    </div>
+        <div class="hud-header">
+            <span>YOUR ORDER</span>
+            <button onclick="clearCart()" class="clear-btn">Clear All</button>
+        </div>
+        <div id="cart-items-list"></div>
+        </div>
 </div>
 <script>
     let cart = JSON.parse(localStorage.getItem('arkShopCart')) || [];
@@ -219,8 +221,11 @@
     }
 }
 document.addEventListener('click', (e) => {
+    // 1. Find the card
     const card = e.target.closest('.dino-card') || e.target.closest('.item-card');
-    if (card) {
+    
+    // 2. Make sure we didn't just click the HUD or the dropdown itself
+    if (card && !e.target.closest('#shop-hud')) {
         const nameEl = card.querySelector('h3') || card.querySelector('h2');
         const priceEl = card.querySelector('.price');
         
@@ -228,23 +233,28 @@ document.addEventListener('click', (e) => {
             const baseName = nameEl.innerText.trim();
             const basePrice = Number(priceEl.innerText.replace(/[^0-9.]/g, ''));
             
-            // 1. Check the variant selector in the HUD
+            // 3. Get the variant info from the HUD dropdown
             const variantPicker = document.getElementById('variant-master');
             const extraPrice = Number(variantPicker.value);
+            // This gets just the word "Tek", "Proto", etc.
             const variantText = variantPicker.options[variantPicker.selectedIndex].text.split(' (')[0];
 
-            // 2. Decide the name (e.g., "Tek Rex" or just "Rex")
-            const fullName = (variantText === "Original") ? baseName : `${variantText} ${baseName}`;
+            // 4. Create the final Name and Price
+            const fullName = (variantText === "Vanilla") ? baseName : `${variantText} ${baseName}`;
             const finalPrice = basePrice + extraPrice;
 
-            // 3. Add to cart
+            // 5. Add to cart logic
             const index = cart.findIndex(i => i.name === fullName);
             if (index !== -1) { 
                 cart[index].qty += 1; 
             } else { 
                 cart.push({ name: fullName, price: finalPrice, qty: 1 }); 
             }
+            
             renderCart();
+            
+            // OPTIONAL: Reset picker to "Original" after adding
+            // variantPicker.value = "0";
         }
     }
 });
