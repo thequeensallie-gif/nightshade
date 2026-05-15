@@ -170,10 +170,10 @@
     const hud = document.getElementById('shop-hud');
     const btn = document.getElementById('hud-toggle');
     
-    // This part adds/removes the 'collapsed' style we put in CSS
+    // Switch the 'collapsed' class on or off
     hud.classList.toggle('collapsed');
     
-    // This part changes the icon so you know if it's open or closed
+    // Change the button symbol
     if (hud.classList.contains('collapsed')) {
         btn.innerText = '+';
     } else {
