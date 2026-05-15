@@ -185,10 +185,9 @@
 }
 
 document.addEventListener('click', (e) => {
-    // 1. Find the card
     const card = e.target.closest('.dino-card') || e.target.closest('.item-card');
     
-    // 2. Make sure we didn't just click the HUD or the dropdown itself
+    // Safety check: Don't trigger if they clicked inside the HUD or on the dropdown itself
     if (card && !e.target.closest('#shop-hud')) {
         const nameEl = card.querySelector('h3') || card.querySelector('h2');
         const priceEl = card.querySelector('.price');
@@ -197,17 +196,16 @@ document.addEventListener('click', (e) => {
             const baseName = nameEl.innerText.trim();
             const basePrice = Number(priceEl.innerText.replace(/[^0-9.]/g, ''));
             
-            // 3. Get the variant info from the HUD dropdown
             const variantPicker = document.getElementById('variant-master');
             const extraPrice = Number(variantPicker.value);
-            // This gets just the word "Tek", "Proto", etc.
+            
+            // This safely extracts the word ("Tek", "Proto", "Original")
             const variantText = variantPicker.options[variantPicker.selectedIndex].text.split(' (')[0];
 
-            // 4. Create the final Name and Price
-            const fullName = (variantText === "Original") ? baseName : `${variantText} ${baseName}`;
+            // FIX: If it's "Original", match it EXACTLY with the base name so it doesn't duplicate
+            const fullName = (variantText === "Original" || variantText === "Original (Base Price)") ? baseName : `${variantText} ${baseName}`;
             const finalPrice = basePrice + extraPrice;
 
-            // 5. Add to cart logic
             const index = cart.findIndex(i => i.name === fullName);
             if (index !== -1) { 
                 cart[index].qty += 1; 
@@ -216,9 +214,6 @@ document.addEventListener('click', (e) => {
             }
             
             renderCart();
-            
-            // OPTIONAL: Reset picker to "Original" after adding
-            // variantPicker.value = "0";
         }
     }
 });
