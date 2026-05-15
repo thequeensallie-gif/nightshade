@@ -4,11 +4,31 @@
 <meta charset="UTF-8">
 <title>Carnivores - Nightshade Ark</title>
 <link rel="stylesheet" href="css/styles.css">
+<style>
+    /* HUD STYLING */
+    #shop-hud { position: fixed; bottom: 20px; right: 20px; width: 340px; background: rgba(10, 10, 10, 0.98); border: 2px solid #00ffcc; border-radius: 12px; padding: 15px; z-index: 10000; color: white; box-shadow: 0 0 25px rgba(0, 255, 204, 0.4); font-family: sans-serif; }
+    .hud-header { display: flex; justify-content: space-between; font-size: 11px; color: #888; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px; }
+    .clear-btn { background: none; border: none; color: #ff4444; cursor: pointer; font-size: 10px; text-transform: uppercase; }
+    #cart-items-list { max-height: 200px; overflow-y: auto; margin-bottom: 10px; }
+    .cart-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #222; }
+    .item-controls { display: flex; align-items: center; gap: 5px; }
+    .qty-input { width: 50px; background: #000; border: 1px solid #444; color: #00ffcc; text-align: center; border-radius: 4px; padding: 4px 0; font-weight: bold; font-size: 13px; }
+    .qty-input:focus { border-color: #00ffcc; outline: none; }
+    .qty-btn { background: #222; color: #00ffcc; border: 1px solid #00ffcc; border-radius: 4px; width: 24px; height: 24px; cursor: pointer; font-weight: bold; }
+    .qty-btn:hover { background: #00ffcc; color: #000; }
+    .item-name { font-size: 13px; flex-grow: 1; margin-left: 10px; color: #eee; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .item-price-display { font-size: 13px; color: #00ffcc; font-weight: bold; margin-left: 5px; min-width: 60px; text-align: right; }
+    .grand-total-section { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 6px; margin-bottom: 12px; border-top: 1px solid #333; }
+    .total-line { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; }
+    .total-line b { color: #00ffcc; font-size: 1.1em; }
+    .hud-copy-btn { width: 100%; background: #00ffcc; color: #000; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+    .dino-card { cursor: pointer !important; transition: 0.2s; border: 2px solid transparent !important; }
+    .dino-card:hover { border-color: #00ffcc !important; background: rgba(0, 255, 204, 0.05); }
+</style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar">
     <a href="index.html" class="logo">
         <img src="images/logo-transparent.png" alt="Nightshade Logo">
@@ -21,163 +41,68 @@
     </ul>
 </nav>
 
-<!-- HEADER -->
 <header class="shop-header">
     <h1>Carnivores</h1>
-    <p>Powerful predators ranging from small hunters to massive apex creatures. <strong>Prices are subject to change. Tek, Proto, Myth, and Eerie dino's Cost 2500 more than their originals!</strong></p>
+    <p>Powerful predators ranging from small hunters to massive apex creatures.</p>
 </header>
 
-<!-- ===== SMALL ===== -->
 <section class="dino-section">
-<div class="dino-grid">
-
-<div class="dino-card"><img src="images/dinos/carnivores/compy.webp"><h3>Compy</h3><p>Small pack scavenger. Create compy army</p><span class="price">2500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/cat.webp"><h3>Cat</h3><p>Stealthy companion.</p><span class="price">2500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/dimorphodon.webp"><h3>Dimorphodon</h3><p>Targets riders.</p><span class="price">2500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/drakeling.webp"><h3>Drakeling</h3><p>Small dragon-like attacker.</p><span class="price">2500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/electrophorus.webp"><h3>Electrophorus</h3><p>Shocking eel.</p><span class="price">2500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/fjordhawk.webp"><h3>Fjordhawk</h3><p>Retrieves lost items.</p><span class="price">2500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/hyaenodon.webp"><h3>Hyaenodon</h3><p>Pack hunter.</p><span class="price">2500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/kairuku.webp"><h3>Kairuku</h3><p>Polymer farm penguin.</p><span class="price">2500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/lamprey.webp"><h3>Lamprey</h3><p>Leeches onto targets.</p><span class="price">2500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/microraptor.webp"><h3>Microraptor</h3><p>Disables riders.</p><span class="price">2500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/piranha.webp"><h3>Piranha</h3><p>Swarm attacker.</p><span class="price">2500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/sabertoothsalmon.webp"><h3>Sabertooth Salmon</h3><p>Aggressive fish.</p><span class="price">2500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/trilobite.webp"><h3>Trilobite</h3><p>Resource creature.</p><span class="price">2500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/troodon.webp"><h3>Troodon</h3><p>Deadly at night.</p><span class="price">2500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/veilwyn.webp"><h3>Veilwyn</h3><p>Mystical hunter.</p><span class="price">2500 Metal Ingots</span></div>
-
-</div>
+    <div class="dino-grid">
+        <div class="dino-card"><img src="images/dinos/carnivores/compy.webp"><h3>Compy</h3><p>Small pack scavenger.</p><span class="price">2500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/carnivores/cat.webp"><h3>Cat</h3><p>Stealthy companion.</p><span class="price">2500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/carnivores/dimorphodon.webp"><h3>Dimorphodon</h3><p>Targets riders.</p><span class="price">2500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/carnivores/drakeling.webp"><h3>Drakeling</h3><p>Small dragon-like attacker.</p><span class="price">2500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/carnivores/electrophorus.webp"><h3>Electrophorus</h3><p>Shocking eel.</p><span class="price">2500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/carnivores/fjordhawk.webp"><h3>Fjordhawk</h3><p>Retrieves lost items.</p><span class="price">2500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/carnivores/hyaenodon.webp"><h3>Hyaenodon</h3><p>Pack hunter.</p><span class="price">2500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/carnivores/kairuku.webp"><h3>Kairuku</h3><p>Polymer farm penguin.</p><span class="price">2500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/carnivores/purlovia.webp"><h3>Purlovia</h3><p>Burrowing ambusher.</p><span class="price">5000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/carnivores/rex.webp"><h3>Rex</h3><p>Apex predator.</p><span class="price">7500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/carnivores/spinosaur.webp"><h3>Spinosaurus</h3><p>Water powerhouse.</p><span class="price">7500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/carnivores/wyvern.webp"><h3>Wyvern</h3><p>Flying elemental dragon.</p><span class="price">10000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/carnivores/giganotosaurus.webp"><h3>Giga</h3><p>Massive destructive beast.</p><span class="price">10000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/carnivores/reaper.webp"><h3>Reaper</h3><p>Alien apex predator.</p><span class="price">15000 Metal Ingots</span></div>
+    </div>
 </section>
 
-<!-- ===== MEDIUM ===== -->
-<section class="dino-section">
-<div class="dino-grid">
-
-<div class="dino-card"><img src="images/dinos/carnivores/raptor.webp"><h3>Raptor</h3><p>Fast pack hunter.</p><span class="price">5000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/direwolf.webp"><h3>Direwolf</h3><p>Strong pack bonus.</p><span class="price">5000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/sabertooth.webp"><h3>Sabertooth</h3><p>Agile predator.</p><span class="price">5000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/thylacoleo.webp"><h3>Thylacoleo</h3><p>Ambush climber.</p><span class="price">5000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/bloodstalker.webp"><h3>Bloodstalker</h3><p>Web hunter.</p><span class="price">5000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/griffin.webp"><h3>Griffin</h3><p>Fast aerial fighter.</p><span class="price">5000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/angler.webp"><h3>Angler</h3><p>Deep sea light hunter.</p><span class="price">5000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/araneo.webp"><h3>Araneo</h3><p>Web-spitting spider.</p><span class="price">5000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/archaeopteryx.webp"><h3>Archaeopteryx</h3><p>Gliding utility flyer.</p><span class="price">5000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/armadoggo.webp"><h3>Armadoggo</h3><p>Defensive rolling companion.</p><span class="price">5000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/beelzebufo.webp"><h3>Beelzebufo</h3><p>Cementing paste farmer.</p><span class="price">5000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/daeodon.webp"><h3>Daeodon</h3><p>Healing support creature.</p><span class="price">5000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/deinonychus.webp"><h3>Deinonychus</h3><p>Bleed damage hunter.</p><span class="price">5000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/dilophosaur.webp"><h3>Dilophosaur</h3><p>Blinds enemies with venom.</p><span class="price">5000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/dimetrodon.webp"><h3>Dimetrodon</h3><p>Temperature regulator.</p><span class="price">5000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/ichthyosaurus.webp"><h3>Ichthyosaurus</h3><p>Fast ocean swimmer.</p><span class="price">5000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/kaprosuchus.webp"><h3>Kaprosuchus</h3><p>Leaping ambusher.</p><span class="price">5000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/manta.webp"><h3>Manta</h3><p>Fast aquatic attacker.</p><span class="price">5000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/mantis.webp"><h3>Mantis</h3><p>Weapon-wielding insect.</p><span class="price">5000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/megalania.webp"><h3>Megalania</h3><p>Applies rabies debuff.</p><span class="price">5000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/megaraptor.webp"><h3>Megaraptor</h3><p>Swift aggressive hunter.</p><span class="price">5000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/oviraptor.webp"><h3>Oviraptor</h3><p>Boosts egg production.</p><span class="price">5000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/pteranodon.webp"><h3>Pteranodon</h3><p>Fast travel flyer.</p><span class="price">5000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/purlovia.webp"><h3>Purlovia</h3><p>Burrowing ambusher.</p><span class="price">5000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/ravager.webp"><h3>Ravager</h3><p>Zipline pack hunter.</p><span class="price">5000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/pulmonoscorpius.webp"><h3>Pulmonoscorpius</h3><p>Torpor scorpion.</p><span class="price">5000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/tapejara.webp"><h3>Tapejara</h3><p>Agile multi-seat flyer.</p><span class="price">5000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/terrorbird.webp"><h3>Terror Bird</h3><p>Fast gliding predator.</p><span class="price">5000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/titanoboa.webp"><h3>Titanoboa</h3><p>Torpor snake.</p><span class="price">5000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/pyromane.webp"><h3>Pyromane</h3><p>Fire-based attacker.</p><span class="price">6500 Metal Ingots</span></div>
-
+<div id="shop-hud">
+    <div class="hud-header">
+        <span>YOUR ORDER</span>
+        <button onclick="clearCart()" class="clear-btn">Clear All</button>
+    </div>
+    <div id="cart-items-list"></div>
+    <div class="hud-footer">
+        <div class="grand-total-section">
+            <div class="total-line"><span>Total Resources:</span><b id="totalRes">0</b></div>
+            <div class="total-line"><span>Total Metal Ingots:</span><b id="totalIng">0</b></div>
+        </div>
+        <button onclick="copyHudTicket()" class="hud-copy-btn">COPY ORDER FOR DISCORD</button>
+    </div>
 </div>
 
-</div>
-</section>
-
-<!-- ===== LARGE ===== -->
-<section class="dino-section">
-<div class="dino-grid">
-
-<div class="dino-card"><img src="images/dinos/carnivores/rex.webp"><h3>Rex</h3><p>Apex predator.</p><span class="price">7500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/spinosaur.webp"><h3>Spinosaurus</h3><p>Water powerhouse.</p><span class="price">7500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/yutyrannus.webp"><h3>Yutyrannus</h3><p>Fear roar support.</p><span class="price">7500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/allosaurus.webp"><h3>Allosaurus</h3><p>Pack bleed predator.</p><span class="price">7500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/basilisk.webp"><h3>Basilisk</h3><p>Burrowing venom beast.</p><span class="price">7500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/carnotaurus.webp"><h3>Carnotaurus</h3><p>Fast charging attacker.</p><span class="price">7500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/ceratosaurus.webp"><h3>Ceratosaurus</h3><p>Balanced predator.</p><span class="price">7500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/deinosuchus.webp"><h3>Deinosuchus</h3><p>Massive swamp ambusher.</p><span class="price">7500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/dunkleosteus.webp"><h3>Dunkleosteus</h3><p>Deep sea resource breaker.</p><span class="price">7500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/fasolasuchus.webp"><h3>Fasolasuchus</h3><p>Desert burrower.</p><span class="price">7500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/helicoprion.webp"><h3>Helicoprion</h3><p>Spiral-tooth shark.</p><span class="price">7500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/managarmr.webp"><h3>Managarmr</h3><p>Ice-breath jumper.</p><span class="price">7500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/megalodon.webp"><h3>Megalodon</h3><p>Ocean predator.</p><span class="price">7500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/megalosaurus.webp"><h3>Megalosaurus</h3><p>Night boosted hunter.</p><span class="price">7500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/sarco.webp"><h3>Sarco</h3><p>Fast water crocodile.</p><span class="price">7500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/snowowl.webp"><h3>Snow Owl</h3><p>Healing flyer.</p><span class="price">7500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/thornydragon.webp"><h3>Thorny Dragon</h3><p>Reflects damage.</p><span class="price">7500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/velonasaur.webp"><h3>Velonasaur</h3><p>Turret-style shooter.</p><span class="price">7500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/xiphactinus.webp"><h3>Xiphactinus</h3><p>Fast sea hunter.</p><span class="price">7500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/yiling.webp"><h3>Yi Ling</h3><p>Gliding aerial predator.</p><span class="price">7500 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/dreadmare.webp"><h3>Dreadmare</h3><p>Dark war beast.</p><span class="price">7500 Metal Ingots</span></div>
-
-</div>
-
-</div>
-</section>
-
-<!-- ===== EXTREME ===== -->
-<section class="dino-section">
-<div class="dino-grid">
-<div class="dino-card"><img src="images/dinos/carnivores/aureliax.webp"><h3>Aureliax</h3><p>Massive aquatic predator.</p><span class="price">10000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/wyvern.webp"><h3>Wyvern (any type)</h3><p>Elemental flying dragon.</p><span class="price">10000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/giganotosaurus.webp"><h3>Giganotosaurus</h3><p>Massive destructive beast.</p><span class="price">10000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/gigadesmodus.webp"><h3>Gigadesmodus</h3><p>Specializes in aerial combat, featuring Red Element-infused blood projectiles, a 15% life-steal ability, and a powerful, exploitative tail execute for creatures under 15% HP.</p><span class="price">10000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/quetzal.webp"><h3>Quetzalcoatlus</h3><p>Giant flying reptile.</p><span class="price">10000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/reaper.webp"><h3>Reaper</h3><p>Alien apex predator.</p><span class="price">15000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/rockdrake.webp"><h3>Rock Drake</h3><p>Cloaking climber.</p><span class="price">10000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/tusoteuthis.webp"><h3>Tusoteuthis</h3><p>Giant squid.</p><span class="price">10000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/acrocanthosaurus.webp"><h3>Acrocanthosaurus</h3><p>Rage-fueled predator.</p><span class="price">10000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/mosasaurus.webp"><h3>Mosasaurus</h3><p>Ocean apex.</p><span class="price">10000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/plesiosaur.webp"><h3>Plesiosaur</h3><p>Deep sea mount.</p><span class="price">10000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/aureliax.webp"><h3>Aureliax</h3><p>Legendary beast.</p><span class="price">10000 Metal Ingots</span></div>
-<div class="dino-card"><img src="images/dinos/carnivores/carcharodontosaurus.webp"><h3>Carcharodontosaurus</h3><p>Bloodrage titan.</p><span class="price">10000 Metal Ingots</span></div>
-
-</div>
-
-</div>
-</section>
-
-<!-- ===== BEHEMOTH ===== -->
-<section class="dino-section">
-<div class="dino-grid">
-
-<div class="dino-card"><img src="images/dinos/carnivores/shastasaurus.webp"><h3>Shastasaurus</h3><p>Ocean titan.</p><span class="price">20000 Metal Ingots</span></div>
-
-</div>
-</section>
 <script>
     let cart = JSON.parse(localStorage.getItem('arkShopCart')) || [];
 
-    // 1. CLICK TO ADD (This is the only time the HTML list "refreshes")
     document.addEventListener('click', (e) => {
-        const card = e.target.closest('.item-card') || e.target.closest('.dino-card');
+        const card = e.target.closest('.dino-card') || e.target.closest('.item-card');
         if (card) {
-            const nameEl = card.querySelector('h2') || card.querySelector('h3');
+            const nameEl = card.querySelector('h3') || card.querySelector('h2');
             const priceEl = card.querySelector('.price');
             if (nameEl && priceEl) {
                 const name = nameEl.innerText.trim();
-                const priceInIngots = parseInt(priceEl.innerText.replace(/[^0-9]/g, ''));
-                if (!isNaN(priceInIngots)) {
-                    const index = cart.findIndex(item => item.name === name);
-                    if (index !== -1) {
-                        cart[index].qty += 1;
-                    } else {
-                        cart.push({ name: name, price: priceInIngots, qty: 1 });
-                    }
-                    // Full refresh only when a card is clicked
-                    renderCart();
+                const price = parseInt(priceEl.innerText.replace(/[^0-9]/g, ''));
+                
+                const index = cart.findIndex(item => item.name === name);
+                if (index !== -1) {
+                    cart[index].qty += 1;
+                } else {
+                    cart.push({ name: name, price: price, qty: 1 });
                 }
+                renderCart();
             }
         }
     });
 
-    // 2. PLUS/MINUS BUTTONS (Also triggers full refresh)
     function updateQuantity(name, change) {
         const index = cart.findIndex(item => item.name === name);
         if (index !== -1) {
@@ -187,49 +112,35 @@
         }
     }
 
-    // 3. MANUAL TYPING (DOES NOT refresh HTML - allows continuous typing)
     function handleManualQty(name, newQty, inputElement) {
         const index = cart.findIndex(item => item.name === name);
         if (index !== -1) {
             const val = parseInt(newQty);
-            // Update the data in memory
             cart[index].qty = isNaN(val) ? 0 : val;
-            
-            // Save to memory
-            localStorage.setItem('arkShopCart', JSON.stringify(cart));
-
-            // Update the PRICE for just THIS row without refreshing the list
             const row = inputElement.closest('.cart-row');
-            const rowPriceDisplay = row.querySelector('.item-price-display');
-            if (rowPriceDisplay) {
-                rowPriceDisplay.innerText = (cart[index].qty * cart[index].price).toLocaleString();
-            }
-
-            // Update the Grand Totals at the bottom
+            const priceDisp = row.querySelector('.item-price-display');
+            if (priceDisp) priceDisp.innerText = (cart[index].qty * cart[index].price).toLocaleString();
+            localStorage.setItem('arkShopCart', JSON.stringify(cart));
             calculateTotalsOnly();
         }
     }
 
     function calculateTotalsOnly() {
-        let totalIngots = 0;
-        cart.forEach(item => {
-            totalIngots += (item.price * item.qty);
-        });
-        const totalRes = totalIngots * 20;
-        document.getElementById('totalIng').innerText = totalIngots.toLocaleString();
-        document.getElementById('totalRes').innerText = totalRes.toLocaleString();
+        let total = 0;
+        cart.forEach(item => total += (item.price * item.qty));
+        if(document.getElementById('totalIng')) document.getElementById('totalIng').innerText = total.toLocaleString();
+        if(document.getElementById('totalRes')) document.getElementById('totalRes').innerText = (total * 20).toLocaleString();
     }
 
     function renderCart() {
-        const listContainer = document.getElementById('cart-items-list');
-        listContainer.innerHTML = '';
-        
+        const list = document.getElementById('cart-items-list');
+        if (!list) return;
+        list.innerHTML = '';
         if (cart.length === 0) {
-            listContainer.innerHTML = '<p style="text-align:center; color:#555; font-size:12px; margin-top:10px;">Select items to begin</p>';
+            list.innerHTML = '<p style="text-align:center; color:#555; font-size:12px; margin-top:10px;">Select items to begin</p>';
         }
-
-        cart.forEach((item) => {
-            listContainer.innerHTML += `
+        cart.forEach(item => {
+            list.innerHTML += `
                 <div class="cart-row">
                     <div class="item-controls">
                         <button class="qty-btn" onclick="event.stopPropagation(); updateQuantity('${item.name}', -1)">-</button>
@@ -242,24 +153,18 @@
                     <span class="item-price-display">${(item.price * item.qty).toLocaleString()}</span>
                 </div>`;
         });
-        
         calculateTotalsOnly();
         localStorage.setItem('arkShopCart', JSON.stringify(cart));
     }
 
-    function clearCart() {
-        cart = [];
-        renderCart();
-    }
+    function clearCart() { cart = []; renderCart(); }
 
     function copyHudTicket() {
         if (cart.length === 0) return alert("Cart is empty!");
         let summary = "--- NIGHTSHADE SHOP ORDER ---\n";
-        cart.forEach(item => { 
-            if(item.qty > 0) summary += `${item.qty}x ${item.name} (${(item.price * item.qty).toLocaleString()} Ingots)\n`; 
-        });
+        cart.forEach(item => { if(item.qty > 0) summary += `${item.qty}x ${item.name} (${(item.price * item.qty).toLocaleString()} Ingots)\n`; });
         summary += `\nTOTAL: ${document.getElementById('totalRes').innerText} Resources -> ${document.getElementById('totalIng').innerText} Ingots`;
-        navigator.clipboard.writeText(summary).then(() => { alert("Order copied to clipboard!"); });
+        navigator.clipboard.writeText(summary).then(() => alert("Order copied!"));
     }
 
     window.addEventListener('load', renderCart);
