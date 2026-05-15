@@ -627,29 +627,17 @@ footer {
 ========================= */
 
 #shop-hud { 
-    position: fixed; 
-    bottom: 20px; 
-    right: 20px; 
-    width: 340px; 
-    background: rgba(10, 10, 10, 0.98); 
-    border: 2px solid #00ffcc; 
-    border-radius: 12px; 
-    padding: 15px; 
-    z-index: 10000; 
-    color: white; 
-    box-shadow: 0 0 25px rgba(0, 255, 204, 0.4); 
-    font-family: sans-serif;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    
-    
+    height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    max-height: 85vh !important;
+}
 
 #cart-items-list { 
-    display: block !important;
-    max-height: 110px !important; /* Forces the list to stop growing */
-    overflow-y: auto !important;  /* Forces a scrollbar when it exceeds 150px */
-    margin-bottom: 10px; 
-    padding-right: 5px;           /* Gives the scrollbar a little breathing room */
+    max-height: 120px !important;
+    overflow-y: auto !important;
 }
+
 
 /* FIXES DETECTED HERE: */
     max-height: 85vh; /* Allows the box to grow up to 85% of the screen height */
