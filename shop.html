@@ -181,6 +181,38 @@
         btn.innerText = '−';
     }
 }
+
+document.addEventListener('click', (e) => {
+    const card = e.target.closest('.dino-card') || e.target.closest('.item-card');
+    if (card) {
+        const nameEl = card.querySelector('h3') || card.querySelector('h2');
+        const priceEl = card.querySelector('.price');
+        
+        if (nameEl && priceEl) {
+            const baseName = nameEl.innerText.trim();
+            const basePrice = Number(priceEl.innerText.replace(/[^0-9.]/g, ''));
+            
+            // 1. Check the variant selector in the HUD
+            const variantPicker = document.getElementById('variant-master');
+            const extraPrice = Number(variantPicker.value);
+            const variantText = variantPicker.options[variantPicker.selectedIndex].text.split(' (')[0];
+
+            // 2. Decide the name (e.g., "Tek Rex" or just "Rex")
+            const fullName = (variantText === "Original") ? baseName : `${variantText} ${baseName}`;
+            const finalPrice = basePrice + extraPrice;
+
+            // 3. Add to cart
+            const index = cart.findIndex(i => i.name === fullName);
+            if (index !== -1) { 
+                cart[index].qty += 1; 
+            } else { 
+                cart.push({ name: fullName, price: finalPrice, qty: 1 }); 
+            }
+            renderCart();
+        }
+    }
+});
+
 </script>
 
 </body>
