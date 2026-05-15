@@ -65,72 +65,9 @@
     </div>
 </section>
 
-<div id="shop-hud">
-    <div class="hud-header">
-        <span>YOUR ORDER</span>
-        <button onclick="clearCart()" class="clear-btn">Clear All</button>
-    </div>
-    <div id="cart-items-list"></div>
-    <div class="hud-footer">
-        <div class="grand-total-section">
-            <div class="total-line"><span>Total Resources:</span><b id="totalRes">0</b></div>
-            <div class="total-line"><span>Total Metal Ingots:</span><b id="totalIng">0</b></div>
-        </div>
-        <button onclick="copyHudTicket()" class="hud-copy-btn">COPY ORDER FOR DISCORD</button>
-    </div>
-</div>
-
+<!-- SHOPPING LIST -->
 <script>
     let cart = JSON.parse(localStorage.getItem('arkShopCart')) || [];
-
-    document.addEventListener('click', (e) => {
-        const card = e.target.closest('.dino-card') || e.target.closest('.item-card');
-        if (card) {
-            const nameEl = card.querySelector('h3') || card.querySelector('h2');
-            const priceEl = card.querySelector('.price');
-            if (nameEl && priceEl) {
-                const name = nameEl.innerText.trim();
-                const price = parseInt(priceEl.innerText.replace(/[^0-9]/g, ''));
-                
-                const index = cart.findIndex(item => item.name === name);
-                if (index !== -1) {
-                    cart[index].qty += 1;
-                } else {
-                    cart.push({ name: name, price: price, qty: 1 });
-                }
-                renderCart();
-            }
-        }
-    });
-
-    function updateQuantity(name, change) {
-        const index = cart.findIndex(item => item.name === name);
-        if (index !== -1) {
-            cart[index].qty += change;
-            if (cart[index].qty <= 0) cart.splice(index, 1);
-            renderCart();
-        }
-    }
-
-    function handleManualQty(name, newQty, inputElement) {
-        const index = cart.findIndex(item => item.name === name);
-        if (index !== -1) {
-            const val = parseInt(newQty);
-            cart[index].qty = isNaN(val) ? 0 : val;
-            const row = inputElement.closest('.cart-row');
-            const priceDisp = row.querySelector('.item-price-display');
-            if (priceDisp) priceDisp.innerText = (cart[index].qty * cart[index].price).toLocaleString();
-            localStorage.setItem('arkShopCart', JSON.stringify(cart));
-            calculateTotalsOnly();
-        }
-    }
-
-    function calculateTotalsOnly() {
-        let total = 0;
-        cart.forEach(item => total += (item.price * item.qty));
-        if(document.getElementById('totalIng')) document.getElementById('totalIng').innerText = total.toLocaleString();
-        if(document.getElementById('totalRes')) document.getElementById('totalRes').innerText = (total * 20).toLocaleString();
-    }
 
     function renderCart() {
         const list = document.getElementById('cart-items-list');
@@ -140,30 +77,78 @@
             list.innerHTML = '<p style="text-align:center; color:#555; font-size:12px; margin-top:10px;">Select items to begin</p>';
         }
         cart.forEach(item => {
-            list.innerHTML += `
-                <div class="cart-row">
-                    <div class="item-controls">
-                        <button class="qty-btn" onclick="event.stopPropagation(); updateQuantity('${item.name}', -1)">-</button>
-                        <input type="number" class="qty-input" value="${item.qty}" 
-                               oninput="handleManualQty('${item.name}', this.value, this)" 
-                               onclick="event.stopPropagation()">
-                        <button class="qty-btn" onclick="event.stopPropagation(); updateQuantity('${item.name}', 1)">+</button>
-                    </div>
-                    <span class="item-name">${item.name}</span>
-                    <span class="item-price-display">${(item.price * item.qty).toLocaleString()}</span>
-                </div>`;
+            list.innerHTML += `<div class="cart-row">
+                <div class="item-controls">
+                    <button class="qty-btn" onclick="updateQuantity('${item.name}', -1)">-</button>
+                    <input type="number" class="qty-input" value="${item.qty}" oninput="handleManualQty('${item.name}', this.value, this)">
+                    <button class="qty-btn" onclick="updateQuantity('${item.name}', 1)">+</button>
+                </div>
+                <span class="item-name">${item.name}</span>
+                <span class="item-price-display">${(item.price * item.qty).toLocaleString()}</span>
+            </div>`;
         });
         calculateTotalsOnly();
         localStorage.setItem('arkShopCart', JSON.stringify(cart));
+    }
+
+    document.addEventListener('click', (e) => {
+        const card = e.target.closest('.dino-card') || e.target.closest('.item-card');
+        if (card) {
+            const nameEl = card.querySelector('h3') || card.querySelector('h2');
+            const priceEl = card.querySelector('.price');
+            if (nameEl && priceEl) {
+                const name = nameEl.innerText.trim();
+                const price = parseInt(priceEl.innerText.replace(/[^0-9]/g, ''));
+                const index = cart.findIndex(i => i.name === name);
+                if (index !== -1) { cart[index].qty += 1; } 
+                else { cart.push({ name: name, price: price, qty: 1 }); }
+                renderCart();
+            }
+        }
+    });
+
+    function updateQuantity(name, change) {
+        const idx = cart.findIndex(i => i.name === name);
+        if (idx !== -1) {
+            cart[idx].qty += change;
+            if (cart[idx].qty <= 0) cart.splice(idx, 1);
+            renderCart();
+        }
+    }
+
+    function handleManualQty(name, newQty, input) {
+        const idx = cart.findIndex(i => i.name === name);
+        if (idx !== -1) {
+            const val = parseInt(newQty);
+            cart[idx].qty = isNaN(val) ? 0 : val;
+            const row = input.closest('.cart-row');
+            row.querySelector('.item-price-display').innerText = (cart[idx].qty * cart[idx].price).toLocaleString();
+            localStorage.setItem('arkShopCart', JSON.stringify(cart));
+            calculateTotalsOnly();
+        }
+    }
+
+    function calculateTotalsOnly() {
+        let total = 0;
+        cart.forEach(i => total += (i.price * i.qty));
+        const ingDisplay = document.getElementById('totalIng');
+        if (ingDisplay) ingDisplay.innerText = total.toLocaleString();
     }
 
     function clearCart() { cart = []; renderCart(); }
 
     function copyHudTicket() {
         if (cart.length === 0) return alert("Cart is empty!");
+        
         let summary = "--- NIGHTSHADE SHOP ORDER ---\n";
-        cart.forEach(item => { if(item.qty > 0) summary += `${item.qty}x ${item.name} (${(item.price * item.qty).toLocaleString()} Ingots)\n`; });
-        summary += `\nTOTAL: ${document.getElementById('totalRes').innerText} Resources -> ${document.getElementById('totalIng').innerText} Ingots`;
+        cart.forEach(i => { 
+            if(i.qty > 0) summary += `${i.qty}x ${i.name} (${(i.price * i.qty).toLocaleString()} Ingots)\n`; 
+        });
+
+        // Pulling only the Ingot number from the screen
+        const ingTotal = document.getElementById('totalIng').innerText;
+        summary += `\nTOTAL COST: ${ingTotal} Metal Ingots`;
+
         navigator.clipboard.writeText(summary).then(() => alert("Order copied!"));
     }
 
