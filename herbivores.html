@@ -4,11 +4,31 @@
 <meta charset="UTF-8">
 <title>Herbivores - Nightshade Ark</title>
 <link rel="stylesheet" href="css/styles.css">
+<style>
+    /* HUD STYLING - Ensuring consistency across pages */
+    #shop-hud { position: fixed; bottom: 20px; right: 20px; width: 340px; background: rgba(10, 10, 10, 0.98); border: 2px solid #00ffcc; border-radius: 12px; padding: 15px; z-index: 10000; color: white; box-shadow: 0 0 25px rgba(0, 255, 204, 0.4); font-family: sans-serif; }
+    .hud-header { display: flex; justify-content: space-between; font-size: 11px; color: #888; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px; }
+    .clear-btn { background: none; border: none; color: #ff4444; cursor: pointer; font-size: 10px; text-transform: uppercase; }
+    #cart-items-list { max-height: 200px; overflow-y: auto; margin-bottom: 10px; }
+    .cart-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #222; }
+    .item-controls { display: flex; align-items: center; gap: 5px; }
+    .qty-input { width: 50px; background: #000; border: 1px solid #444; color: #00ffcc; text-align: center; border-radius: 4px; padding: 4px 0; font-weight: bold; font-size: 13px; }
+    .qty-input:focus { border-color: #00ffcc; outline: none; }
+    .qty-btn { background: #222; color: #00ffcc; border: 1px solid #00ffcc; border-radius: 4px; width: 24px; height: 24px; cursor: pointer; font-weight: bold; }
+    .qty-btn:hover { background: #00ffcc; color: #000; }
+    .item-name { font-size: 13px; flex-grow: 1; margin-left: 10px; color: #eee; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .item-price-display { font-size: 13px; color: #00ffcc; font-weight: bold; margin-left: 5px; min-width: 60px; text-align: right; }
+    .grand-total-section { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 6px; margin-bottom: 12px; border-top: 1px solid #333; }
+    .total-line { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; }
+    .total-line b { color: #00ffcc; font-size: 1.1em; }
+    .hud-copy-btn { width: 100%; background: #00ffcc; color: #000; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+    .dino-card { cursor: pointer !important; transition: 0.2s; border: 2px solid transparent !important; }
+    .dino-card:hover { border-color: #00ffcc !important; background: rgba(0, 255, 204, 0.05); }
+</style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar">
     <a href="index.html" class="logo">
         <img src="images/logo-transparent.png" alt="Nightshade Logo">
@@ -21,321 +41,101 @@
     </ul>
 </nav>
 
-<!-- HEADER -->
 <header class="shop-header">
     <h1>Herbivores</h1>
     <p>Peaceful creatures perfect for farming, defense, and utility. <strong>Prices are subject to change. Tek, Proto, Myth, and Eerie dino's Cost 2500 more than their originals!</strong></p>
 </header>
 
-<!-- DINO GRID -->
 <section class="dino-section">
     <div class="dino-grid">
-
-        <!-- DINO CARD -->
-        <div class="dino-card">
-            <img src="images/dinos/herbivores/achatina.webp" alt="Achatina">
-            <h3>Achatina</h3>
-            <p>Achatina is primarily tamed for its ability to produce Cementing Paste and Organic Polymer.</p>
-            <span class="price">2500 Metal Ingots</span>
-        </div>
-
-        <div class="dino-card">
-            <img src="images/dinos/herbivores/shinehorn.webp" alt="Shinehorn">
-            <h3>Shinehorn</h3>
-            <p>It is often described as an adorable, small, and fluffy goat/deer ungulate with glowing antlers, providing light and protection against Nameless in dark, dangerous areas. </p>
-            <span class="price">2500 Metal Ingots</span>
-        </div>
-
-        <div class="dino-card">
-            <img src="images/dinos/herbivores/rollrat.webp" alt="Rollrat">
-            <h3>Rollrat</h3>
-            <p>It excels at gathering wood and can produce rare gems.</p>
-            <span class="price">2500 Metal Ingots</span>
-        </div>
-
-        <div class="dino-card">
-            <img src="images/dinos/herbivores/jugbug.webp" alt="Jug Bug">
-            <h3>Jug Bug</h3>
-            <p>Essential for early-game survival in desert maps for hydration (water) and fuel/crafting (oil)</p>
-            <span class="price">2500 Metal Ingots</span>
-        </div>
-
-        <div class="dino-card">
-            <img src="images/dinos/herbivores/lystrosaurus.webp" alt="Lystrosaurus">
-            <h3>Lystrosaurus</h3>
-            <p>Lystrosaurusprovides a 35% experience boost to nearby tamed creatures when petted. Often considered a beginner's pet, this resilient, pig-like creature is found wandering forests and, despite being slow, is highly useful for leveling up other dinos</p>
-            <span class="price">2500 Metal Ingots</span>
-        </div>
-    <div class="dino-card">
-    <img src="images/dinos/herbivores/gasbags.webp" alt="Gasbags">
-    <h3>Gasbags</h3>
-    <p>Gasbags are acting as a superb, high-weight transport mount and mobile tank</p>
-    <span class="price">2500 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/jerboa.webp" alt="Jerboa">
-    <h3>Jerboa</h3>
-    <p>Jerboa is found in desert regions, its "Renopila" species warns survivors of incoming sandstorms, heatwaves, or rain through specific cries and body movements, making it an essential companion for early-game survival.</p>
-    <span class="price">2500 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/pegomastax.webp" alt="Pegomastax">
-    <h3>Pegomastax</h3>
-    <p>Pegomastax is known for being an annoying, thieving pest that steals items from a player's last inventory slot and runs away. While aggressive when approached, they are not highly threatening, but are useful for gathering berries, seeds, and rare ingredients when tamed</p>
-    <span class="price">2500 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/featherlight.webp" alt="Featherlight">
-    <h3>Featherlight</h3>
-    <p>Featherlight is often referred to as a "Lantern Bird" and is distinct for being the only tameable light pet that can fly.</p>
-    <span class="price">2500 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/dodo.webp" alt="Dodo">
-    <h3>Dodo</h3>
-    <p>The Dodo is a flightless bird known for its docile nature and ability to provide food and resources when tamed. Create a dodo army.</p>
-    <span class="price">2500 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/ferox.webp" alt="Ferox">
-    <h3>Ferox</h3>
-    <p>The Ferox is a large, powerful herbivore known for its strength and durability.</p>
-    <span class="price">5000 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/lymantria.webp" alt="Lymantria">
-    <h3>Lymantria</h3>
-    <p>The Lymantria is a unique herbivore known for its ability to camouflage and blend into its surroundings.</p>
-    <span class="price">5000 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/equus.webp" alt="Equus">
-    <h3>Equus</h3>
-    <p>The Equus is a swift and agile herbivore known for its speed and endurance.</p>
-    <span class="price">5000 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/gallimimus.webp" alt="Galimimus">
-    <h3>Galimimus</h3>
-    <p>The Galimimus is a fast and agile herbivore known for its speed and ability to evade predators.</p>
-    <span class="price">5000 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/ankylosaurus.webp" alt="Ankylosaurus">
-    <h3>Ankylosaurus</h3>
-    <p>The Ankylosaurus is a heavily armored herbivore known for its defensive capabilities.</p>
-    <span class="price">5000 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/pachy.webp" alt="Pachy">
-    <h3>Pachy</h3>
-    <p>The Pachy serves as an early-game combat and knockout mount, using a powerful charging headbutt to deal high torpor to smaller creatures. It is often used to knock out creatures like Raptors and Trikes</p>
-    <span class="price">5000 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/pachyrhinosaurus.webp" alt="Pachyrhinosaurus">
-    <h3>Pachyrhinosaurus</h3>
-    <p>The Pachyrhinosaurus can release a calming mist to prevent creatures from attacking, or a rage mist to agro them, making it excellent for safe travel and niche taming utility</p>
-    <span class="price">5000 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/unicorn.webp" alt="Unicorn">
-    <h3>Unicorn</h3>
-    <p>The Unicorn is a mystical creature known for its grace and beauty.</p>
-    <span class="price">5000 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/ovis.webp" alt="Ovis">
-    <h3>Ovis</h3>
-    <p>The Ovis is a gentle, herbivorous creature known for its woolly coat and docile nature.</p>
-    <span class="price">5000 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/carbonemys.webp" alt="Carbonemys">
-    <h3>Carbonemys</h3>
-    <p>The Carbonemys is a large aquatic herbivore known for its slow movement and ability to swim underwater.</p>
-    <span class="price">5000 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/castoroides.webp" alt="Castoroides">
-    <h3>Castoroides</h3>
-    <p>The Castoroides is a large, semi-aquatic herbivore known for its distinctive crest and powerful jaws.</p>
-    <span class="price">5000 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/megaloceros.webp" alt="Megaloceros">
-    <h3>Megaloceros</h3>
-    <p>The Megaloceros is a large, imposing herbivore known for its massive antlers and formidable presence.</p>
-    <span class="price">5000 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/doedicurus.webp" alt="Doedicurus">
-    <h3>Doedicurus</h3>
-    <p>The Doedicurus is a heavily armored herbivore known for its defensive capabilities.</p>
-    <span class="price">5000 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/phiomia.webp" alt="Phiomia">
-    <h3>Phiomia</h3>
-    <p>The Phiomia is a large, herbivorous creature known for its distinctive appearance and gentle nature.</p>
-    <span class="price">5000 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/stegosaurus.webp" alt="Stegosaurus">
-    <h3>Stegosaurus</h3>
-    <p>The Stegosaurus is a large, heavily armored herbivore known for its distinctive plates and tail spikes.</p>
-    <span class="price">7500 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/triceratops.webp" alt="Triceratops">
-    <h3>Triceratops</h3>
-    <p>The Triceratops is a large, heavily armored herbivore known for its distinctive horns and frill.</p>
-    <span class="price">7500 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/morellatops.webp" alt="Morellatops">
-    <h3>Morellatops</h3>
-    <p>The Morellatops is a small, agile herbivore known for its speed and ability to navigate through dense vegetation.</p>
-    <span class="price">7500 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/yeti.webp" alt="Yeti">
-    <h3>Yeti</h3>
-    <p>The Yeti is a mysterious, large herbivore known for its elusive nature and powerful build.</p>
-    <span class="price">7500 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/gigantopithecus.webp" alt="Gigantopithecus">
-    <h3>Gigantopithecus</h3>
-    <p>The Gigantopithecus is a large, herbivorous creature known for its immense size and powerful build.</p>
-    <span class="price">7500 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/iguanodon.webp" alt="Iguanodon">
-    <h3>Iguanodon</h3>
-    <p>The Iguanodon is a large, herbivorous dinosaur known for its distinctive thumb spike and beak.</p>
-    <span class="price">7500 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/mammoth.webp" alt="Mammoth">
-    <h3>Mammoth</h3>
-    <p>The Mammoth is a large, herbivorous creature known for its thick fur and impressive size.</p>
-    <span class="price">7500 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/woollyrhino.webp" alt="Woolly Rhino">
-    <h3>Woolly Rhino</h3>
-    <p>The Woolly Rhino is a large, herbivorous creature known for its thick fur and impressive size.</p>
-    <span class="price">7500 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/chalicotherium.webp" alt="Chalicotherium">
-    <h3>Chalicotherium</h3>
-    <p>The Chalicotherium is a large, herbivorous creature known for its distinctive appearance and gentle nature.</p>
-    <span class="price">7500 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/kentrosaurus.webp" alt="Kentrosaurus">
-    <h3>Kentrosaurus</h3>
-    <p>The Kentrosaurus is a large, heavily armored herbivore known for its distinctive plates and tail spikes.</p>
-    <span class="price">7500 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/giantbee.webp" alt="Giant Bee">
-    <h3>Giant Bee/Queen Bee</h3>
-    <p>The Giant Bee is a large, herbivorous insect known for its impressive size and gentle nature.</p>
-    <span class="price">2500 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/procoptodon.webp" alt="Procoptodon">
-    <h3>Procoptodon</h3>
-    <p>The Procoptodon is a large, herbivorous creature known for its distinctive appearance and gentle nature.</p>
-    <span class="price">7500 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/therizinosaurus.webp" alt="Therizinosaurus">
-    <h3>Therizinosaurus</h3>
-    <p>The Therizinosaurus is a large, herbivorous dinosaur known for its distinctive claws and gentle nature.</p>
-    <span class="price">7500 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/giantbison.webp" alt="Bison">
-    <h3>Bison</h3>
-    <p>The Bison is a large, herbivorous creature known for its impressive size and gentle nature.</p>
-    <span class="price">7500 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/brontosaurus.webp" alt="Brontosaurus">
-    <h3>Brontosaurus</h3>
-    <p>The Brontosaurus is a large, herbivorous dinosaur known for its distinctive appearance and gentle nature.</p>
-    <span class="price">10000 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/paracer.webp" alt="Paraceratherium">
-    <h3>Paraceratherium</h3>
-    <p>The Paraceratherium is a large, herbivorous creature known for its distinctive appearance and gentle nature.</p>
-    <span class="price">10000 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/diplodocus.webp" alt="Diplodocus">
-    <h3>Diplodocus</h3>
-    <p>The Diplodocus is a large, herbivorous dinosaur known for its distinctive appearance and gentle nature.</p>
-    <span class="price">10000 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/amargasaurus.webp" alt="Amargasaurus">
-    <h3>Amargasaurus</h3>
-    <p>The Amargasaurus is a large, herbivorous dinosaur known for its distinctive appearance and gentle nature.</p>
-    <span class="price">10000 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/titanosaur.webp" alt="Titanosaur">
-    <h3>Titanosaur</h3>
-    <p>The Titanosaur is a large, herbivorous dinosaur known for its distinctive appearance and gentle nature.</p>
-    <span class="price">25000 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/dreadnoughtus.webp" alt="Dreadnoughtus">
-    <h3>Dreadnoughtus</h3>
-    <p>The Dreadnoughtus is a large, herbivorous dinosaur known for its distinctive appearance and gentle nature.</p>
-    <span class="price">20000 Metal Ingots</span>
-</div>
-<div class="dino-card">
-    <img src="images/dinos/herbivores/oasisaur.webp" alt="Oasisaur">
-    <h3>Oasisaur</h3>
-    <p>The Oasisaur is a large, herbivorous creature known for its distinctive appearance and gentle nature.</p>
-    <span class="price">20000 Metal Ingots</span>
-</div>
-</div>
+        <div class="dino-card"><img src="images/dinos/herbivores/achatina.webp"><h3>Achatina</h3><p>Produces Cementing Paste and Organic Polymer.</p><span class="price">2500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/shinehorn.webp"><h3>Shinehorn</h3><p>Small fluffy goat with glowing antlers.</p><span class="price">2500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/rollrat.webp"><h3>Rollrat</h3><p>Excels at gathering wood and gems.</p><span class="price">2500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/jugbug.webp"><h3>Jug Bug</h3><p>Essential for water and oil.</p><span class="price">2500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/lystrosaurus.webp"><h3>Lystrosaurus</h3><p>Provides 35% experience boost.</p><span class="price">2500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/gasbags.webp"><h3>Gasbags</h3><p>High-weight transport mount.</p><span class="price">2500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/jerboa.webp"><h3>Jerboa</h3><p>Warns of incoming weather storms.</p><span class="price">2500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/pegomastax.webp"><h3>Pegomastax</h3><p>Annoying thieving pest.</p><span class="price">2500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/featherlight.webp"><h3>Featherlight</h3><p>The only tameable flying light pet.</p><span class="price">2500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/dodo.webp"><h3>Dodo</h3><p>Docile bird. Create a dodo army.</p><span class="price">2500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/ferox.webp"><h3>Ferox</h3><p>Powerful transforming herbivore.</p><span class="price">5000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/lymantria.webp"><h3>Lymantria</h3><p>Unique camouflaging herbivore.</p><span class="price">5000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/equus.webp"><h3>Equus</h3><p>Swift and agile horse.</p><span class="price">5000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/gallimimus.webp"><h3>Galimimus</h3><p>Fast and agile evader.</p><span class="price">5000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/ankylosaurus.webp"><h3>Ankylosaurus</h3><p>Heavily armored metal farmer.</p><span class="price">5000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/pachy.webp"><h3>Pachy</h3><p>Early-game combat and knockout mount.</p><span class="price">5000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/pachyrhinosaurus.webp"><h3>Pachyrhinosaurus</h3><p>Releases calming or rage mists.</p><span class="price">5000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/unicorn.webp"><h3>Unicorn</h3><p>Mystical creature of grace.</p><span class="price">5000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/ovis.webp"><h3>Ovis</h3><p>Gentle woolly creature.</p><span class="price">5000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/carbonemys.webp"><h3>Carbonemys</h3><p>Slow aquatic turtle tank.</p><span class="price">5000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/castoroides.webp"><h3>Castoroides</h3><p>Giant semi-aquatic beaver.</p><span class="price">5000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/megaloceros.webp"><h3>Megaloceros</h3><p>Imposing elk with massive antlers.</p><span class="price">5000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/doedicurus.webp"><h3>Doedicurus</h3><p>Armored stone gatherer.</p><span class="price">5000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/phiomia.webp"><h3>Phiomia</h3><p>Manure producing specialist.</p><span class="price">5000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/stegosaurus.webp"><h3>Stegosaurus</h3><p>Heavily armored plate-back.</p><span class="price">7500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/triceratops.webp"><h3>Triceratops</h3><p>Distinctive horns and frill defense.</p><span class="price">7500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/morellatops.webp"><h3>Morellatops</h3><p>Desert water storage beast.</p><span class="price">7500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/yeti.webp"><h3>Yeti</h3><p>Mysterious and powerful build.</p><span class="price">7500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/gigantopithecus.webp"><h3>Gigantopithecus</h3><p>Large herbivorous ape.</p><span class="price">7500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/iguanodon.webp"><h3>Iguanodon</h3><p>Infinite stamina runner.</p><span class="price">7500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/mammoth.webp"><h3>Mammoth</h3><p>Thick fur wood gatherer.</p><span class="price">7500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/woollyrhino.webp"><h3>Woolly Rhino</h3><p>Charging powerhouse.</p><span class="price">7500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/chalicotherium.webp"><h3>Chalicotherium</h3><p>Boulder-throwing defender.</p><span class="price">7500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/kentrosaurus.webp"><h3>Kentrosaurus</h3><p>Spiky defensive specialist.</p><span class="price">7500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/giantbee.webp"><h3>Giant Bee</h3><p>Queen Bee for honey farming.</p><span class="price">2500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/procoptodon.webp"><h3>Procoptodon</h3><p>High-jumping pouch transporter.</p><span class="price">7500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/therizinosaurus.webp"><h3>Therizinosaurus</h3><p>The "Tickle Chicken" harvester.</p><span class="price">7500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/giantbison.webp"><h3>Bison</h3><p>Large impressive herd beast.</p><span class="price">7500 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/brontosaurus.webp"><h3>Brontosaurus</h3><p>Massive platform-saddle beast.</p><span class="price">10000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/paracer.webp"><h3>Paracer</h3><p>Mobile base platform mount.</p><span class="price">10000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/diplodocus.webp"><h3>Diplodocus</h3><p>Friendly 10-seater bus.</p><span class="price">10000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/amargasaurus.webp"><h3>Amargasaurus</h3><p>Spiky elemental attacker.</p><span class="price">10000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/titanosaur.webp"><h3>Titanosaur</h3><p>The largest land creature.</p><span class="price">25000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/dreadnoughtus.webp"><h3>Dreadnoughtus</h3><p>Gargantuan defensive titan.</p><span class="price">20000 Metal Ingots</span></div>
+        <div class="dino-card"><img src="images/dinos/herbivores/oasisaur.webp"><h3>Oasisaur</h3><p>Flying island base.</p><span class="price">20000 Metal Ingots</span></div>
     </div>
 </section>
+
+<div id="shop-hud">
+    <div class="hud-header">
+        <span>YOUR ORDER</span>
+        <button onclick="clearCart()" class="clear-btn">Clear All</button>
+    </div>
+    <div id="cart-items-list"></div>
+    <div class="hud-footer">
+        <div class="grand-total-section">
+            <div class="total-line"><span>Total Resources:</span><b id="totalRes">0</b></div>
+            <div class="total-line"><span>Total Metal Ingots:</span><b id="totalIng">0</b></div>
+        </div>
+        <button onclick="copyHudTicket()" class="hud-copy-btn">COPY ORDER FOR DISCORD</button>
+    </div>
+</div>
+
 <script>
     let cart = JSON.parse(localStorage.getItem('arkShopCart')) || [];
 
-    // 1. CLICK TO ADD (This is the only time the HTML list "refreshes")
+    // Universal Click Detection
     document.addEventListener('click', (e) => {
-        const card = e.target.closest('.item-card') || e.target.closest('.dino-card');
+        const card = e.target.closest('.dino-card') || e.target.closest('.item-card');
         if (card) {
-            const nameEl = card.querySelector('h2') || card.querySelector('h3');
+            const nameEl = card.querySelector('h3') || card.querySelector('h2');
             const priceEl = card.querySelector('.price');
             if (nameEl && priceEl) {
                 const name = nameEl.innerText.trim();
-                const priceInIngots = parseInt(priceEl.innerText.replace(/[^0-9]/g, ''));
-                if (!isNaN(priceInIngots)) {
+                const price = parseInt(priceEl.innerText.replace(/[^0-9]/g, ''));
+                if (!isNaN(price)) {
                     const index = cart.findIndex(item => item.name === name);
                     if (index !== -1) {
                         cart[index].qty += 1;
                     } else {
-                        cart.push({ name: name, price: priceInIngots, qty: 1 });
+                        cart.push({ name: name, price: price, qty: 1 });
                     }
-                    // Full refresh only when a card is clicked
                     renderCart();
                 }
             }
         }
     });
 
-    // 2. PLUS/MINUS BUTTONS (Also triggers full refresh)
     function updateQuantity(name, change) {
         const index = cart.findIndex(item => item.name === name);
         if (index !== -1) {
@@ -345,49 +145,35 @@
         }
     }
 
-    // 3. MANUAL TYPING (DOES NOT refresh HTML - allows continuous typing)
     function handleManualQty(name, newQty, inputElement) {
         const index = cart.findIndex(item => item.name === name);
         if (index !== -1) {
             const val = parseInt(newQty);
-            // Update the data in memory
             cart[index].qty = isNaN(val) ? 0 : val;
-            
-            // Save to memory
-            localStorage.setItem('arkShopCart', JSON.stringify(cart));
-
-            // Update the PRICE for just THIS row without refreshing the list
             const row = inputElement.closest('.cart-row');
-            const rowPriceDisplay = row.querySelector('.item-price-display');
-            if (rowPriceDisplay) {
-                rowPriceDisplay.innerText = (cart[index].qty * cart[index].price).toLocaleString();
-            }
-
-            // Update the Grand Totals at the bottom
+            const priceDisp = row.querySelector('.item-price-display');
+            if (priceDisp) priceDisp.innerText = (cart[index].qty * cart[index].price).toLocaleString();
+            localStorage.setItem('arkShopCart', JSON.stringify(cart));
             calculateTotalsOnly();
         }
     }
 
     function calculateTotalsOnly() {
-        let totalIngots = 0;
-        cart.forEach(item => {
-            totalIngots += (item.price * item.qty);
-        });
-        const totalRes = totalIngots * 20;
-        document.getElementById('totalIng').innerText = totalIngots.toLocaleString();
-        document.getElementById('totalRes').innerText = totalRes.toLocaleString();
+        let total = 0;
+        cart.forEach(item => total += (item.price * item.qty));
+        if(document.getElementById('totalIng')) document.getElementById('totalIng').innerText = total.toLocaleString();
+        if(document.getElementById('totalRes')) document.getElementById('totalRes').innerText = (total * 20).toLocaleString();
     }
 
     function renderCart() {
-        const listContainer = document.getElementById('cart-items-list');
-        listContainer.innerHTML = '';
-        
+        const list = document.getElementById('cart-items-list');
+        if (!list) return;
+        list.innerHTML = '';
         if (cart.length === 0) {
-            listContainer.innerHTML = '<p style="text-align:center; color:#555; font-size:12px; margin-top:10px;">Select items to begin</p>';
+            list.innerHTML = '<p style="text-align:center; color:#555; font-size:12px; margin-top:10px;">Select items to begin</p>';
         }
-
-        cart.forEach((item) => {
-            listContainer.innerHTML += `
+        cart.forEach(item => {
+            list.innerHTML += `
                 <div class="cart-row">
                     <div class="item-controls">
                         <button class="qty-btn" onclick="event.stopPropagation(); updateQuantity('${item.name}', -1)">-</button>
@@ -400,24 +186,18 @@
                     <span class="item-price-display">${(item.price * item.qty).toLocaleString()}</span>
                 </div>`;
         });
-        
         calculateTotalsOnly();
         localStorage.setItem('arkShopCart', JSON.stringify(cart));
     }
 
-    function clearCart() {
-        cart = [];
-        renderCart();
-    }
+    function clearCart() { cart = []; renderCart(); }
 
     function copyHudTicket() {
         if (cart.length === 0) return alert("Cart is empty!");
         let summary = "--- NIGHTSHADE SHOP ORDER ---\n";
-        cart.forEach(item => { 
-            if(item.qty > 0) summary += `${item.qty}x ${item.name} (${(item.price * item.qty).toLocaleString()} Ingots)\n`; 
-        });
+        cart.forEach(item => { if(item.qty > 0) summary += `${item.qty}x ${item.name} (${(item.price * item.qty).toLocaleString()} Ingots)\n`; });
         summary += `\nTOTAL: ${document.getElementById('totalRes').innerText} Resources -> ${document.getElementById('totalIng').innerText} Ingots`;
-                  navigator.clipboard.writeText(summary).then(() => { alert("Order copied to clipboard!"); });
+        navigator.clipboard.writeText(summary).then(() => alert("Order copied!"));
     }
 
     window.addEventListener('load', renderCart);
