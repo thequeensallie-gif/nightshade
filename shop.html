@@ -166,6 +166,20 @@
     }
 
     window.addEventListener('load', renderCart);
+    function toggleHud() {
+    const hud = document.getElementById('shop-hud');
+    const btn = document.getElementById('hud-toggle');
+    
+    // This part adds/removes the 'collapsed' style we put in CSS
+    hud.classList.toggle('collapsed');
+    
+    // This part changes the icon so you know if it's open or closed
+    if (hud.classList.contains('collapsed')) {
+        btn.innerText = '+';
+    } else {
+        btn.innerText = '−';
+    }
+}
 </script>
 
 </body>

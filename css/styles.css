@@ -659,7 +659,7 @@ footer {
 #hud-toggle {
     position: absolute;
     top: 8px;
-    right: 8px;
+    left: 8px;
     background: #00ffcc;
     color: #000;
     border: none;
