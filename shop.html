@@ -75,10 +75,48 @@
         <a href="https://discord.gg/8NeNgTQu6d" class="discord-button">Go to Discord</a>
     </div>
 </section>
+<div id="shop-hud">
+    <div class="hud-header">
+        <span>YOUR ORDER</span>
+        <button onclick="clearCart()" class="clear-btn">Clear All</button>
+    </div>
+    
+    <div id="cart-items-list"></div>
+
+    <div class="hud-footer">
+        <div class="grand-total-section">
+            <div class="total-line"><span>Total Resources:</span><b id="totalRes">0</b></div>
+            <div class="total-line"><span>Total Metal Ingots:</span><b id="totalIng">0</b></div>
+        </div>
+        <button onclick="copyHudTicket()" class="hud-copy-btn">COPY ORDER FOR DISCORD</button>
+    </div>
+</div>
+
+<style>
+    #shop-hud { position: fixed; bottom: 20px; right: 20px; width: 340px; background: rgba(10, 10, 10, 0.98); border: 2px solid #00ffcc; border-radius: 12px; padding: 15px; z-index: 10000; color: white; box-shadow: 0 0 25px rgba(0, 255, 204, 0.4); font-family: sans-serif; }
+    .hud-header { display: flex; justify-content: space-between; font-size: 11px; color: #888; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px; }
+    .clear-btn { background: none; border: none; color: #ff4444; cursor: pointer; font-size: 10px; text-transform: uppercase; }
+    #cart-items-list { max-height: 200px; overflow-y: auto; margin-bottom: 10px; }
+    .cart-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #222; }
+    .item-controls { display: flex; align-items: center; gap: 5px; }
+    .qty-input { width: 50px; background: #000; border: 1px solid #444; color: #00ffcc; text-align: center; border-radius: 4px; padding: 4px 0; font-weight: bold; font-size: 13px; }
+    .qty-input:focus { border-color: #00ffcc; outline: none; }
+    .qty-btn { background: #222; color: #00ffcc; border: 1px solid #00ffcc; border-radius: 4px; width: 24px; height: 24px; cursor: pointer; font-weight: bold; }
+    .qty-btn:hover { background: #00ffcc; color: #000; }
+    .item-name { font-size: 13px; flex-grow: 1; margin-left: 10px; color: #eee; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .item-price-display { font-size: 13px; color: #00ffcc; font-weight: bold; margin-left: 5px; min-width: 60px; text-align: right; }
+    .grand-total-section { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 6px; margin-bottom: 12px; border-top: 1px solid #333; }
+    .total-line { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; }
+    .total-line b { color: #00ffcc; font-size: 1.1em; }
+    .hud-copy-btn { width: 100%; background: #00ffcc; color: #000; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+    .dino-card, .item-card { cursor: pointer !important; transition: 0.2s; border: 2px solid transparent !important; }
+    .dino-card:hover, .item-card:hover { border-color: #00ffcc !important; background: rgba(0, 255, 204, 0.05); }
+</style>
+
 <script>
     let cart = JSON.parse(localStorage.getItem('arkShopCart')) || [];
 
-    // 1. CLICK TO ADD (This is the only time the HTML list "refreshes")
+    // Click Detection for Cards
     document.addEventListener('click', (e) => {
         const card = e.target.closest('.item-card') || e.target.closest('.dino-card');
         if (card) {
@@ -88,48 +126,36 @@
                 const name = nameEl.innerText.trim();
                 const priceInIngots = parseInt(priceEl.innerText.replace(/[^0-9]/g, ''));
                 if (!isNaN(priceInIngots)) {
-                    const index = cart.findIndex(item => item.name === name);
-                    if (index !== -1) {
-                        cart[index].qty += 1;
-                    } else {
-                        cart.push({ name: name, price: priceInIngots, qty: 1 });
-                    }
-                    // Full refresh only when a card is clicked
-                    renderCart();
+                    updateQuantity(name, 1, priceInIngots);
                 }
             }
         }
     });
 
-    // 2. PLUS/MINUS BUTTONS (Also triggers full refresh)
-    function updateQuantity(name, change) {
+    function updateQuantity(name, change, price = 0) {
         const index = cart.findIndex(item => item.name === name);
         if (index !== -1) {
             cart[index].qty += change;
             if (cart[index].qty <= 0) cart.splice(index, 1);
-            renderCart();
+        } else if (change > 0) {
+            cart.push({ name: name, price: price, qty: 1 });
         }
+        renderCart();
     }
 
-    // 3. MANUAL TYPING (DOES NOT refresh HTML - allows continuous typing)
+    // Handles typing for specific items in a multi-item list
     function handleManualQty(name, newQty, inputElement) {
         const index = cart.findIndex(item => item.name === name);
         if (index !== -1) {
             const val = parseInt(newQty);
-            // Update the data in memory
             cart[index].qty = isNaN(val) ? 0 : val;
             
-            // Save to memory
-            localStorage.setItem('arkShopCart', JSON.stringify(cart));
-
-            // Update the PRICE for just THIS row without refreshing the list
+            // Update the specific row's price display immediately
             const row = inputElement.closest('.cart-row');
-            const rowPriceDisplay = row.querySelector('.item-price-display');
-            if (rowPriceDisplay) {
-                rowPriceDisplay.innerText = (cart[index].qty * cart[index].price).toLocaleString();
-            }
+            const priceDisplay = row.querySelector('.item-price-display');
+            priceDisplay.innerText = (cart[index].qty * cart[index].price).toLocaleString();
 
-            // Update the Grand Totals at the bottom
+            localStorage.setItem('arkShopCart', JSON.stringify(cart));
             calculateTotalsOnly();
         }
     }
@@ -139,19 +165,17 @@
         cart.forEach(item => {
             totalIngots += (item.price * item.qty);
         });
-//        const totalRes = totalIngots * 20;
+        const totalRes = totalIngots * 20;
         document.getElementById('totalIng').innerText = totalIngots.toLocaleString();
-//        document.getElementById('totalRes').innerText = totalRes.toLocaleString();
+        document.getElementById('totalRes').innerText = totalRes.toLocaleString();
     }
 
     function renderCart() {
         const listContainer = document.getElementById('cart-items-list');
         listContainer.innerHTML = '';
-        
         if (cart.length === 0) {
             listContainer.innerHTML = '<p style="text-align:center; color:#555; font-size:12px; margin-top:10px;">Select items to begin</p>';
         }
-
         cart.forEach((item) => {
             listContainer.innerHTML += `
                 <div class="cart-row">
@@ -166,15 +190,11 @@
                     <span class="item-price-display">${(item.price * item.qty).toLocaleString()}</span>
                 </div>`;
         });
-        
         calculateTotalsOnly();
         localStorage.setItem('arkShopCart', JSON.stringify(cart));
     }
 
-    function clearCart() {
-        cart = [];
-        renderCart();
-    }
+    function clearCart() { cart = []; renderCart(); }
 
     function copyHudTicket() {
         if (cart.length === 0) return alert("Cart is empty!");
@@ -182,7 +202,7 @@
         cart.forEach(item => { 
             if(item.qty > 0) summary += `${item.qty}x ${item.name} (${(item.price * item.qty).toLocaleString()} Ingots)\n`; 
         });
-        summary += `\nTOTAL: ${document.getElementById('totalRes').innerText} Resources -> ${document.getElementById('totalIng').innerText} Ingots`;        
+        summary += `\nTOTAL: ${document.getElementById('totalRes').innerText} Resources -> ${document.getElementById('totalIng').innerText} Ingots`;
         navigator.clipboard.writeText(summary).then(() => { alert("Order copied to clipboard!"); });
     }
 
